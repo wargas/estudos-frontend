@@ -1,0 +1,11 @@
+// @import 'bootstrap';
+@import '../node_modules/admin-lte/dist/css/adminlte.css';
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btn {
+    &:focus {
+        box-shadow: none;
+    }
+}

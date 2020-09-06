@@ -1,0 +1,36 @@
+.sidebar-container {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 0px 1fr 60px;
+
+    .sidebar-menu {
+        .nav {
+            flex-direction: column;
+            .nav-item {
+                .nav-link {
+                    color: #000000;
+                    font-size: 18px;
+                    i.fas {
+                        margin-right: 1rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .sidebar-footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .userDrop {
+            
+            .dropdown-toggle {
+                background-color: transparent;
+                border: none;
+                color: var(--dark);
+                width: 100%;       
+            }
+        }
+    }
+}

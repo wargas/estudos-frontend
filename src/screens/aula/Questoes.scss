@@ -1,0 +1,62 @@
+.stats {
+    display: flex;
+    align-items: center;
+    padding-top: 8px;
+
+    .stat {
+        width: 12px;
+        height: 12px;
+        border-radius: 6px;
+        margin-right: 6px;
+
+        &.acertou {
+            background-color: var(--success);
+        }
+
+        &.errou {
+            background-color: var(--danger);
+        }
+    }
+}
+
+.btn-loading {
+    transition: all 0.2s;
+    &.on {
+        width: 60px;
+    }
+
+    &.of {
+        width: 200px;
+    }
+}
+
+.panel {
+    .panel-item {
+        cursor: pointer;
+        background-color: #eee; 
+        color: var(--gray);
+        margin-bottom: 0.5rem;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        border-radius: 3px;
+        justify-content: center;
+
+        &.correta {
+            border-color: var(--success);
+            background-color: var(--success);
+            color: var(--light);
+        }
+
+        &.errada {
+            border-color: var(--danger);
+            background-color: var(--danger);
+            color: var(--light);
+        }
+
+        // &.current {
+        //     border: 2px solid var(--primary);
+        //     color: var(--primary);
+        // }
+    }
+}
