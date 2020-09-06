@@ -21,7 +21,7 @@ export const Layout: React.SFC<LayoutProps> = props => {
                                 <button className="btn">
                                     <i className="fas fa-bars"></i>
                                 </button>
-                            </li>
+                            </li> 
                         </ul>
                         {/* <div className="ml-auto">
                             <Switch>
@@ -34,7 +34,7 @@ export const Layout: React.SFC<LayoutProps> = props => {
                     </aside>
 
                     <div className="content-wrapper">
-
+                        <h1>Layout 2</h1>
                         <Routes />
                     </div>
                 </div>
