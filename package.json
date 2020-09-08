@@ -14,10 +14,13 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-scrollbar": "^0.5.1",
+    "@types/yup": "^0.29.6",
     "admin-lte": "3.0",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",
+    "firebase": "^7.19.1",
+    "formik": "^2.1.5",
     "luxon": "^1.25.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
@@ -28,7 +31,8 @@
     "react-markdown": "^4.3.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "typescript": "~3.8"
+    "typescript": "~3.8",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "react-scripts start",

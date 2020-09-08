@@ -1,0 +1,20 @@
+.main-menu {
+    .nav-item {
+        .nav-link {
+            padding: 20px 20px;
+            text-transform: uppercase;
+            &.active {
+                color: white;
+                border-bottom: 4px solid var(--teal);
+            }
+
+            .avatar {
+                padding: 0;
+                width: 26px;
+                border-radius: 26px;
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+        }
+    }
+}
