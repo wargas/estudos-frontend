@@ -20,7 +20,7 @@ export const AuthContextProvider: FC = ({ children }) => {
 
             setUser({ email, uid, displayName, photoURL })
 
-            console.log(user?.providerData[0])
+            
         })
     }, [])
 
@@ -31,9 +31,13 @@ export const AuthContextProvider: FC = ({ children }) => {
     }
 
     if (loading) {
-        return ( 
-            <div className="d-flex" style={{ height: '100vh', alignItems: 'center', justifyContent: 'center' }}>
-                <Spinner animation="border" />
+        return (
+            <div className="page-loader">
+                <div className="page-loader__spinner">
+                    <svg viewBox="25 25 50 50">
+                        <circle cx="50" cy="50" r="20" fill="none" strokeWidth="2" strokeMiterlimit="10" />
+                    </svg>
+                </div>
             </div>
         )
     }

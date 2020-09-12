@@ -1,18 +1,9 @@
-@import 'bootstrap';
-@import '../node_modules/admin-lte/dist/css/adminlte.css';
-@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Poppins:wght@100;300;400;700&display=swap');
-* {
-    font-family: 'Poppins', sans-serif;
-    scrollbar-width: thin;
-
-}
-
 .btn {
     &:focus {
-        box-shadow: none;
+        box-shadow: none !important;
     }
 }
 
 .card {
-    border-radius: .1rem;
+    border-radius: .1rem ;
 }

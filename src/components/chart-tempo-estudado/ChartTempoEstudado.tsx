@@ -42,9 +42,9 @@ export const ChartTempoEStadudo: React.SFC<ChartTempoEStadudoProps> = props => {
                     type: 'bar',
                     label: 'Tempo por Dia',
                     data: tempos,
-                    borderColor: '#eeeeeeaa',
+                    borderColor: '#2196f3',
                     borderWidth: 2,
-                    backgroundColor: '#eeeeeeaa'
+                    backgroundColor: '#2196f3'
                 },
                 {
                     label: 'Meta para o dia (03:00:00)',

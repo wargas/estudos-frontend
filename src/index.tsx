@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 import './styles.scss';
-
-document.title = "APP estudar"
+import './scss/app.scss';
 
 ReactDOM.render(
   <App />,

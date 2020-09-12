@@ -8,7 +8,7 @@ import { Home } from '../screens/home/Home';
 import { Aula } from '../screens/aula/Aula';
 import { Login } from '../screens/auth/Login';
 
-export const Routes: React.SFC<RoutesInterface> = props => {
+export const Routes: React.FC<RoutesInterface> = props => {
 
     
 

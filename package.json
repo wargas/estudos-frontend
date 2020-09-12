@@ -15,7 +15,6 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-scrollbar": "^0.5.1",
     "@types/yup": "^0.29.6",
-    "admin-lte": "3.0",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",

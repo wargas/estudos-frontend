@@ -72,7 +72,7 @@ export const ChartQuestoesRespondidas: React.FC<ChartQuestoesRespondidasProps> =
                 {
                     type: 'line',
                     label: 'Acertos',
-                    borderColor: 'black',
+                    borderColor: '#2196f3',
                     borderWidth: 3,
                     backgroundColor: '#efefef00',
                     data: percentage, 
@@ -84,7 +84,7 @@ export const ChartQuestoesRespondidas: React.FC<ChartQuestoesRespondidasProps> =
             {
                 type: 'line',
                 label: 'Acertos',
-                borderColor: '#28a745',
+                borderColor: '#32c787',
                 borderWidth: 2,
                 backgroundColor: '#efefef00',
                 data: acertos
@@ -92,7 +92,7 @@ export const ChartQuestoesRespondidas: React.FC<ChartQuestoesRespondidasProps> =
             {
                 type: 'line',
                 label: 'Erros',
-                borderColor: '#dc3545',
+                borderColor: '#ff6b68',
                 borderWidth: 2,
                 backgroundColor: '#efefef00',
                 data: erros
@@ -100,9 +100,9 @@ export const ChartQuestoesRespondidas: React.FC<ChartQuestoesRespondidasProps> =
             {
                 type: 'bar',
                 label: 'Total',
-                borderColor: '#efefefaa',
+                borderColor: '#2196f315',
                 borderWidth: 2,
-                backgroundColor: '#efefefff',
+                backgroundColor: '#2196f320',
                 data: total
             }
         ]

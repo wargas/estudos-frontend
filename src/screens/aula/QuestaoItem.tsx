@@ -21,7 +21,6 @@ export const QuestaoItem: React.SFC<QuestaoItemProps> = ({ questao, index, marca
                                 {opcao.letra} {opcao.status}
                             </div>
                             <div className="texto" onClick={() => riscar(opcao_index)}>
-                                {/* {JSON.stringify(opcao)} */}
                                 <Markdown source={opcao.texto} />
                             </div>
                         </div>

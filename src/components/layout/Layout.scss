@@ -1,12 +1,10 @@
-#layout-wrapper {
+.main {
     height: 100vh;
-    overflow-y: scroll;
-    padding-top: 65px;
-    padding-bottom: 1rem;
-    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-}
+    overflow: hidden;
 
-.container-fluid {
-    max-width: 1200px;
+    .content {
+        height: 100vh;
+        overflow: auto;
+        scrollbar-width: thin;
+    }
 }
-

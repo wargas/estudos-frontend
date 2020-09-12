@@ -9,7 +9,7 @@ import './Aula.scss';
 import { Questoes } from './Questoes';
 import { Respondida } from '../../interfaces/Respondida';
 
-export const Aula: React.SFC<AulaProps> = props => {
+export const Aula: React.FC<AulaProps> = props => {
 
     const { id } = useParams<AulaParams>();
     const [loading, setLoading] = useState(false);
@@ -17,6 +17,7 @@ export const Aula: React.SFC<AulaProps> = props => {
     const [aula, setAula] = useState<AulaInterface>();
     const [questoes, setQuestoes] = useState<Questao[]>([]);
     const [respondidas, setRespondidas] = useState<Respondida[]>([]);
+    
 
     useEffect(() => {
         getAula();
@@ -90,31 +91,28 @@ export const Aula: React.SFC<AulaProps> = props => {
 
     return (
         <React.Fragment>
-            <div className="content-header">
-                <Container fluid>
-                    <>
-                        <h1>{aula?.ordem?.toString().padStart(2, '0')}. {aula?.name}</h1>
-                        <span>{aula?.disciplina?.name}</span>
-                    </>
-                </Container>
+            <div className="toolbar">
+                <div className="toolbar--label" style={{ textTransform: 'uppercase' }}>
+                    <h5>{aula?.ordem?.toString().padStart(2, '0')}. {aula?.name}</h5>
+                    <span>{aula?.disciplina?.name}</span>
+                </div>
             </div>
-            <div className="content">
-                <Container fluid>
-                    {loading &&
-                        <div className="d-flex justify-content-center">
-                            <Spinner animation="border" />
-                        </div>
-                    }
+            {loading &&
+                <div className="d-flex justify-content-center">
+                    <Spinner animation="border" />
+                </div>
+            }
 
-                    {!loading &&
-                        <Questoes
-                            respondidas={respondidas}
-                            loading={loadingReposta}
-                            onHasReponse={handleResponse}
-                            questoes={questoes} />
-                    }
-                </Container>
-            </div>
+            {!loading &&
+                <Questoes
+                    aula={aula as AulaInterface}
+                    respondidas={respondidas}
+                    loading={loadingReposta}
+                    onHasReponse={handleResponse}
+                    questoes={questoes} />
+            }
+
+
         </React.Fragment>
     )
 }

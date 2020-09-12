@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, Breadcrumb } from 'react-bootstrap';
 import ScrollArea from 'react-scrollbar';
 
+
+
 import './Gerenciar.scss';
 import { useApp } from '../../contexts/AppContext';
 

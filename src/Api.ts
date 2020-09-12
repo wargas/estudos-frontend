@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const Api = axios.create({
-    baseURL: 'http://wargasteixeira.com.br:3333/api/'
+    baseURL: 'https://questoes.wargasteixeira.com.br/api/'
 })

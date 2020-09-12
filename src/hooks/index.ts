@@ -8,7 +8,7 @@ export const useKey = (key: string, cb: (e: KeyboardEvent) => void) => {
 
         const handler = (event: KeyboardEvent) => {
 
-            console.log(event.key)
+            
             
             if(event.key === key) {
                 cb(event)

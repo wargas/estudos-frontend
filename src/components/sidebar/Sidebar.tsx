@@ -1,41 +1,43 @@
 import React from 'react';
 import './Sidebar.scss';
-import { Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { UserInfo } from '../user-info/UserInfo';
 
-export const Sidebar: React.SFC<SidebarProps> = props => {
+export const Sidebar: React.SFC<SidebarProps> = ({ open }) => {
+
     return (
         <React.Fragment>
-            <a href="" className="brand-link">
-                <span className="brand-text">ESTUDOS</span>
-            </a>
-            <div className="sidebar">
-                <nav className="mt-2">
-                    <ul className="nav nav-pills nav-sidebar flex-column">
-                        <li className="nav-item">
-                            <Link to="/" className="nav-link">
-                                <i className="nav-icon fas fa-th"></i>
-                                <p>Dashboard</p>
+            <aside className={`sidebar sidebar--hidden ${open ? 'toggled' : ''}`}>
+                <div className="scrollbar-inner">
+
+                    <UserInfo />
+
+                    <ul className="navigation">
+                        <li>
+                            <Link to="/">
+                                <i className="zmdi zmdi-view-dashboard"></i>
+                            Dashboard
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link to="/estudar" className="nav-link">
-                                <i className="nav-icon fas fa-chalkboard"></i>
-                                <p>Estudar</p>
+                        <li>
+                            <Link to="/estudar">
+                                <i className="zmdi zmdi-view-week"></i>
+                            Estudar
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link to="/gerenciar" className="nav-link">
-                                <i className="nav-icon fas fa-cog"></i>
-                                <p>Gerenciar</p>
+                        <li>
+                            <Link to="configurar">
+                                <i className="zmdi zmdi-settings"></i>
+                            Configurar
                             </Link>
                         </li>
                     </ul>
-                </nav>
-                
-            </div>
+                </div>
+            </aside>
         </React.Fragment>
     )
 }
 
-export interface SidebarProps { }
+export interface SidebarProps {
+    open: boolean
+}

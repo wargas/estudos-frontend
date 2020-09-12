@@ -88,9 +88,9 @@ export const Tempo: React.SFC<TempoProps> = props => {
 
     return (
         <React.Fragment>
-            <div className="d-flex align-items-center justify-content-between">
+            <div className="d-flex align-items-center justify-content-between p-3">
                 <div className="tempo mx-3">
-                    <span className="p-0 m-0 text-bold">{SecondsToTime(secounds)}</span>
+                    <h3 className="p-0 m-0 text-bold">{SecondsToTime(secounds)}</h3>
                 </div>
                 <div className="actions">
                     <button onClick={ev => setPlay(!play)} className="btn">
