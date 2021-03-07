@@ -1,6 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { AulaParams } from '../../screens/aula/Aula';
 import { SecondsToTime } from './secondsToTime';
 import { isNull } from 'util';
 import { Aula } from '../../interfaces/Aula';
@@ -8,10 +7,9 @@ import { Registro } from '../../interfaces/Registros';
 import { Api } from '../../Api';
 import { Spinner } from 'react-bootstrap';
 import { AxiosResponse } from 'axios';
-import { useKey } from '../../hooks';
 
-export const Tempo: React.SFC<TempoProps> = props => {
-    const { id } = useParams<AulaParams>();
+export const Tempo: React.FC<TempoProps> = ({id}) => {
+    
     const [play, setPlay] = useState(false);
     const [secounds, setSeconds] = useState(0);
     const [aula, setAula] = useState<Aula>();
@@ -27,9 +25,7 @@ export const Tempo: React.SFC<TempoProps> = props => {
         if (play) {
             interval = setInterval(() => {
                 setSeconds(secounds + 1)
-                if (secounds % 60 === 0) {
-                    handleSave()
-                }
+                
             }, 1000)
         } else {
             if (!isNull(interval))
@@ -41,11 +37,15 @@ export const Tempo: React.SFC<TempoProps> = props => {
                 clearInterval(interval)
             }
         }
-    }, [play, secounds])
+    }, [play, secounds])  
 
-    useKey(" ", () => setPlay(!play))
-
-    const handleSave = () => {
+    useEffect(() => {
+        if (secounds > 0 && secounds % 15 === 0) {
+            handleSave()
+        }
+    }, [secounds])
+    
+    const handleSave =  () => {
         setLoading(true)
         let request: Promise<AxiosResponse<Registro>>;
         let data = { tempo: secounds, ...registro };
@@ -63,6 +63,8 @@ export const Tempo: React.SFC<TempoProps> = props => {
 
         request.finally(() => setLoading(false))
     }
+
+    
 
     const getAula = (id: string) => {
         Api.get<Aula>(`aulas/${id}`)
@@ -93,7 +95,7 @@ export const Tempo: React.SFC<TempoProps> = props => {
                     <h3 className="p-0 m-0 text-bold">{SecondsToTime(secounds)}</h3>
                 </div>
                 <div className="actions">
-                    <button onClick={ev => setPlay(!play)} className="btn">
+                    <button onClick={() => setPlay(!play)} className="btn">
                         {play && <i className="fas fa-pause"></i>}
                         {!play && <i className="fas fa-play"></i>}
                     </button>
@@ -107,4 +109,4 @@ export const Tempo: React.SFC<TempoProps> = props => {
     )
 }
 
-export interface TempoProps { }
+export interface TempoProps { id: string }

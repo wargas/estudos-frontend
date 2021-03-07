@@ -78,7 +78,6 @@
   }
 }
 
-
 // New contact
 .new-contact__header {
   background-color: $body-bg;
@@ -92,9 +91,13 @@
 .new-contact__img {
   border-radius: 50%;
   box-shadow: 0 0 0 0.35rem $white;
-  @include size(150px, 150px);
+  // @include size(150px, 150px);
+  width: 150px;
+  height: 150px;
   @include media-breakpoint-down(sm) {
-    @include size(100px, 100px);
+    // @include size(100px, 100px);
+    width: 100px;
+    height: 100px;
   }
 }
 
@@ -103,7 +106,9 @@
   bottom: 1.5rem;
   left: 1.5rem;
   font-size: 1.5rem;
-  @include size(40px, 40px);
+  // @include size(40px, 40px);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   line-height: 42px;
   background-color: $gray-400;

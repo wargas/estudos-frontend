@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import { options } from './options';
 import { DateTime } from 'luxon';
 import { Api } from '../../Api';
 
-export const ChartTempoEStadudo: React.SFC<ChartTempoEStadudoProps> = props => {
+export const ChartTempoEStadudo: React.FC<ChartTempoEStadudoProps> = () => {
 
     const [data, setData] = useState({});
 
@@ -39,12 +40,12 @@ export const ChartTempoEStadudo: React.SFC<ChartTempoEStadudoProps> = props => {
             labels: dates.map(d => d.toFormat('dd/MM')),
             datasets: [
                 {
-                    type: 'bar',
+                    type: 'line',
                     label: 'Tempo por Dia',
                     data: tempos,
-                    borderColor: '#2196f3',
-                    borderWidth: 2,
-                    backgroundColor: '#2196f3'
+                    borderColor: '#607d8b',
+                    borderWidth: 3,
+                    backgroundColor: '#607d8b11'
                 },
                 {
                     label: 'Meta para o dia (03:00:00)',
@@ -66,7 +67,7 @@ export const ChartTempoEStadudo: React.SFC<ChartTempoEStadudoProps> = props => {
     return (
         <React.Fragment>
             <div className="chart" style={{ display: 'block', flex: 1 }}>
-                <Bar data={data} height={75} options={options} />
+                <Line data={data} height={60} options={options} />
             </div>
         </React.Fragment>
     )

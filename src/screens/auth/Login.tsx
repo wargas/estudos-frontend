@@ -1,5 +1,4 @@
-import React, { FC, Fragment, useCallback, useContext, useState, FormEvent } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import React, { FC, Fragment, useCallback, useState, FormEvent } from 'react';
 import { Card, Spinner, Alert } from 'react-bootstrap';
 
 import { useFormik } from 'formik';
@@ -10,11 +9,10 @@ import * as firebase from 'firebase';
 import { firebaseApp } from '../../firebase/firebase-config';
 
 
-export const Login: FC = props => {
+export const Login: FC = () => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('')
-    const auth = useContext(AuthContext);
 
     const formik = useFormik({
         initialValues: {
@@ -22,7 +20,7 @@ export const Login: FC = props => {
             password: ''
         },
         validateOnBlur: true,
-        onSubmit: values => {
+        onSubmit: () => {
             setLoading(true)
             setError('')
             firebaseApp.auth()

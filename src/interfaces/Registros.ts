@@ -4,7 +4,7 @@ export interface Registro {
     tempo?: number;
     user_id?: number;
     concurso_id?: number;
-    horario?: Date;
+    horario?: string;
     created_at?: Date;
     updated_at?: Date;
     id?: number;

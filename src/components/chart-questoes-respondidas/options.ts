@@ -1,4 +1,3 @@
-import { Aula } from "../../interfaces/Aula"
 
 export const options = () => {
     return {

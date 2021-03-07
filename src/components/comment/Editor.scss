@@ -1,0 +1,28 @@
+.editor-toolbar {
+    border: 1px solid #ccc;
+    padding: .5rem;
+    border-radius: 2px;
+    border-bottom-left-radius: none;
+    border-bottom-right-radius: none;
+    button {
+        background-color: #00000011;
+        border: none;
+        margin-right: 2px;
+        border-radius: 2px;
+
+        i {
+            color: #ababab;
+        }
+    }
+}
+
+.DraftEditor-root {
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 2px;
+
+    .public-DraftEditor-content {
+        min-height: 200px;
+        padding: 1rem;
+    }
+}

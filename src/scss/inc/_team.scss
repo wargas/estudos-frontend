@@ -19,7 +19,9 @@
 .team__img {
   display: inline-block;
   border-radius: 50%;
-  @include size(150px, 150px);
+  // @include size(150px, 150px);
+  width: 150px;
+  height: 150px;
   border: 7px solid $white;
   margin: -4rem auto -0.5rem;
 }

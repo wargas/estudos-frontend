@@ -1,15 +1,12 @@
-import React, { useContext } from 'react';
-import { Container, NavDropdown, Dropdown } from 'react-bootstrap';
-import { Link, NavLink } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 import './Header.scss';
-import { AuthContext } from '../../contexts/AuthContext';
 import { Search } from '../search/Search';
 
 export const Header: React.FC<HeaderProps> = ({ toggleSidebar, sidebarOpen }) => {
 
-    const auth = useContext(AuthContext)
 
     return (
         <React.Fragment>
@@ -33,13 +30,13 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar, sidebarOpen }) =>
                 <ul className="top-nav">
                     <li>
                         <Link to="/estudar">
-                            <i className="fas fa-chalkboard"></i>
+                            <div style={{lineHeight: 2, fontWeight: 'bold', padding: '0 1rem 0 1rem'}}>ESTUDAR</div>
                         </Link>
                     </li>
                     <li>
-                        <a href="">
-                            <i className="zmdi zmdi-more-vert"></i>
-                        </a>
+                        <Link to="/gerenciar">
+                            <div style={{lineHeight: 2, fontWeight: 'bold', padding: '0 1rem 0 1rem'}}>GERENCIAR</div>
+                        </Link>
                     </li>
                 </ul>
                 {!!sidebarOpen &&

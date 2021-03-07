@@ -87,7 +87,9 @@
   cursor: pointer;
   transition: color 300ms;
   margin: 0 2px;
-  @include size(30px, 30px);
+  // @include size(30px, 30px);
+  width: 30px;
+  height: 30px;
 
   & > i {
     display: inline-block;
@@ -141,7 +143,9 @@
 .avatar-img,
 .avatar-char {
   border-radius: 50%;
-  @include size(3rem, 3rem);
+  width: 3rem;
+  height: 3rem;
+  // @include size(3rem, 3rem);
 }
 
 .avatar-char {

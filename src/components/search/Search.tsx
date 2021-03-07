@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useRef, useCallback, useState } from 'react'
+import React, { FC, Fragment, useRef, useCallback } from 'react'
 
 export const Search: FC = props => {
     const inputRef = useRef<HTMLFormElement>(null);
@@ -21,8 +21,11 @@ export const Search: FC = props => {
                         onBlur={ev => handlerFocus(false)}
                         type="text"
                         className="search__text"
-                        placeholder="Search for people, files, documents..." />
+                        placeholder="Pesquisar" />
                     <i className="zmdi zmdi-search search__helper" data-ma-action="search-close"></i>
+                    {/* <div className="search__results">
+                        Results aqui
+                    </div> */}
                 </div>
             </form>
         </Fragment>

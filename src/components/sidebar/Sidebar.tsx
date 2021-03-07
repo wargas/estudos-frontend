@@ -26,7 +26,7 @@ export const Sidebar: React.SFC<SidebarProps> = ({ open }) => {
                             </Link>
                         </li>
                         <li>
-                            <Link to="configurar">
+                            <Link to="/gerenciar">
                                 <i className="zmdi zmdi-settings"></i>
                             Configurar
                             </Link>

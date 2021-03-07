@@ -1,12 +1,15 @@
 import { Respondida } from "./Respondida";
 
 export interface Questao {
-    enunciado?: string;
+    enunciado: string;
     gabarito?: number;
+    questao_id: number;
+    aula_id: number;
     opcoes: Opcao[],
     respondidas?: Respondida[], 
     respondida?: boolean,
-    status?: string
+    status?: string,
+    resposta?: Respondida
 }
 
 export interface Opcao { 

@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const Api = axios.create({
-    baseURL: 'https://questoes.wargasteixeira.com.br/api/'
+    baseURL: 'http://157.245.218.108:3333/api'
 })

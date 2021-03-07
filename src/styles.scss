@@ -7,3 +7,9 @@
 .card {
     border-radius: .1rem ;
 }
+
+.no-caret {
+    &::after {
+        display: none !important;
+    }
+}

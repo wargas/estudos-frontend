@@ -5,12 +5,12 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { Estudar } from '../screens/estudar/Estudar';
 import { Gerenciar } from '../screens/gerenciar/Gerenciar';
 import { Home } from '../screens/home/Home';
-import { Aula } from '../screens/aula/Aula';
-import { Login } from '../screens/auth/Login';
+// import { Aula } from '../screens/aula/Aula';
+import { Aula } from '../screens/aulaNew/Aula';
+import ListAulas from '../screens/Disciplina/ListAulas';
 
 export const Routes: React.FC<RoutesInterface> = props => {
-
-    
+  
 
     return (
         <React.Fragment>
@@ -21,6 +21,7 @@ export const Routes: React.FC<RoutesInterface> = props => {
                     <Route exact path="/dashboard" component={Home} />
                     <Route exact path="/gerenciar" component={Gerenciar} />
                     <Route exact path="/estudar" component={Estudar} />
+                    <Route exact path="/disciplinas/:id" component={ListAulas} />
                     <Route exact path="/aula/:id" component={Aula} />
                     <Route path="*">
                         <Redirect to="/" />

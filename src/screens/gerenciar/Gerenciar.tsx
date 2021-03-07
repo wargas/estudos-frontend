@@ -1,26 +1,26 @@
-import React from 'react';
-import { Card, Breadcrumb } from 'react-bootstrap';
-import ScrollArea from 'react-scrollbar';
-
-
+import React, { Fragment, useEffect } from 'react';
+import { Api } from 'src/Api';
+import { respondidasByDay } from 'src/services/respondidas';
 
 import './Gerenciar.scss';
-import { useApp } from '../../contexts/AppContext';
 
-export const Gerenciar: React.SFC<GerenciarProps> = props => {
+export const Gerenciar: React.FC<GerenciarProps> = () => {
 
-    const app = useApp()
+    useEffect(() => {
+        Api.get('respondidas/7')
+            .then(({data}) => {
+                console.log(respondidasByDay(data))
+            })
+    }, [])
 
     return (
-        <div className="gerenciar-container p-3">            
-            <Breadcrumb>
-                <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-                <Breadcrumb.Item active>Gerenciar</Breadcrumb.Item>
-            </Breadcrumb>
-            <div className="boxs">
-                {app?.user.email}
-            </div>
-        </div>
+        <Fragment>
+            <header className="content__title">
+                <h1>Preferencias</h1>
+                <small>Suas Preferencias</small>
+            </header>
+            <div></div>
+        </Fragment>
     )
 }
 

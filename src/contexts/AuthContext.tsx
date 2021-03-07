@@ -1,6 +1,5 @@
-import React, { createContext, FC, Fragment, useState, useEffect } from 'react';
+import React, { createContext, FC, useState, useEffect } from 'react';
 import { firebaseApp } from '../firebase/firebase-config';
-import { Spinner } from 'react-bootstrap';
 
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 

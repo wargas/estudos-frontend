@@ -1,27 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Api } from '../../Api';
 import { Aula, Historico } from '../../interfaces/Aula';
 import { Bar } from 'react-chartjs-2';
 import { options } from './options';
 import { useHistory } from 'react-router-dom';
+import { Disciplina } from 'src/interfaces/Disciplina';
 
 export const ChartNivelAula: React.FC<ChartNivelAulaProps> = ({ disciplina }) => {
     const [data, setData] = useState({});
     const history = useHistory();
 
-    const token = 'last-disciplina-token';
-
+    
     useEffect(() => {
-        if (disciplina === 0) {
-            const id = localStorage.getItem(token);
-            if (id) {
-                getAulas(parseInt(id))
-            }
-        } else {
-            getAulas(disciplina);
-
-            localStorage.setItem(token, disciplina.toString())
-        }
+        getAulas(disciplina?.id || 0)
 
     }, [disciplina])
 
@@ -37,7 +29,10 @@ export const ChartNivelAula: React.FC<ChartNivelAulaProps> = ({ disciplina }) =>
     const getAulas = (id: number) => {
         Api.get<Aula[]>(`relatorios/questoes-media/${id}`)
             .then(({ data: _data }) => {
-                fillData(_data.sort((a, b) => {
+                fillData(
+                    _data
+                    .filter(aula => aula.questoes)
+                    .sort((a, b) => {
                     if (a.ordem === b.ordem) {
                         return 0;
                     }
@@ -56,9 +51,7 @@ export const ChartNivelAula: React.FC<ChartNivelAulaProps> = ({ disciplina }) =>
             const labels: Aula[] = aulas
             const datasets: any[] = [{
                 label: 'Nota',
-                borderColor: '#2196f311',
-                borderWidth: 2,
-                backgroundColor: '#2196f3',
+                backgroundColor: aulas.map(a => '#607d8b'),
                 data: aulas.map(aula => {
                     if (!aula.historico) {
                         return 0;
@@ -69,7 +62,7 @@ export const ChartNivelAula: React.FC<ChartNivelAulaProps> = ({ disciplina }) =>
                             return acc;
                         }
 
-                        if (acc.data == '') {
+                        if (acc.data === '') {
                             acc = it
                         }
 
@@ -84,6 +77,21 @@ export const ChartNivelAula: React.FC<ChartNivelAulaProps> = ({ disciplina }) =>
                 })
             }]
 
+            const min = datasets[0].data.reduce((acc: number, current: number) => {
+                
+                if(acc > current) {
+                    return current;
+                }
+
+                return acc;
+            }, 100)
+
+            datasets[0].data.forEach((d: number, i: number) => {
+                if(d === min) {
+                    datasets[0].backgroundColor[i] = '#607d8baa'
+                }
+            })           
+
             setData({ labels, datasets })
         }
     }
@@ -91,7 +99,7 @@ export const ChartNivelAula: React.FC<ChartNivelAulaProps> = ({ disciplina }) =>
     return (
         <React.Fragment>
             <Bar
-                height={75} data={data}
+                height={50} data={data}
                 onElementsClick={handlerRedirect}
                 options={options()} />
         </React.Fragment>
@@ -99,5 +107,5 @@ export const ChartNivelAula: React.FC<ChartNivelAulaProps> = ({ disciplina }) =>
 }
 
 export interface ChartNivelAulaProps {
-    disciplina: number;
+    disciplina?: Disciplina;
 }

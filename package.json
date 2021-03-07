@@ -1,11 +1,13 @@
 {
   "name": "fronted-v3",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/draft-js": "^0.10.44",
     "@types/jest": "^24.0.0",
     "@types/luxon": "^1.24.4",
     "@types/node": "^12.0.0",
@@ -18,6 +20,8 @@
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",
+    "draft-js": "^0.11.7",
+    "draftjs-md-converter": "^1.4.1",
     "firebase": "^7.19.1",
     "formik": "^2.1.5",
     "luxon": "^1.25.0",
@@ -27,9 +31,13 @@
     "react-chartjs-2": "^2.10.0",
     "react-chartjs2": "^1.2.1",
     "react-dom": "^16.13.1",
-    "react-markdown": "^4.3.1",
+    "react-loading-skeleton": "^2.1.1",
+    "react-markdown": "^5.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "remark-gfm": "^1.0.0",
+    "remark-highlight.js": "^6.0.0",
+    "sweetalert2": "^10.3.5",
     "typescript": "~3.8",
     "yup": "^0.29.3"
   },
@@ -38,7 +46,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "yarn build && scp -r ./build/* root@wargasteixeira.com.br:/var/www/html/estudos/"
+    "deploy": "yarn build && scp -r ./build/* root@157.245.218.108:/var/www/html/estudos/"
   },
   "eslintConfig": {
     "extends": "react-app"

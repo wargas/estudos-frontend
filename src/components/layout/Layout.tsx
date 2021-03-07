@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, Fragment, useState, useCallback } from 'react';
 import './Layout.scss';
 import { Routes } from '../Routes';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
 import { Header } from '../header/Header';
@@ -15,7 +15,7 @@ export const Layout: React.SFC<LayoutProps> = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false) 
 
     useEffect(() => {
-        document.body.setAttribute('data-ma-theme', 'blue')
+        document.body.setAttribute('data-ma-theme', 'green')
     }, [])
 
     const auth = useContext(AuthContext);
@@ -27,7 +27,7 @@ export const Layout: React.SFC<LayoutProps> = () => {
     return (
         <Fragment>
             {(!!auth.user.uid) ?
-                <BrowserRouter>
+                <HashRouter>
                     <main className="main">
                         <div className="page-loader d-none">
                             <div className="page-loader__spinner">
@@ -44,7 +44,7 @@ export const Layout: React.SFC<LayoutProps> = () => {
                             </Container>
                         </section>
                     </main>
-                </BrowserRouter>
+                </HashRouter>
                 : <Login />}
         </Fragment>
     )

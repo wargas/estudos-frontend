@@ -1,42 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Container, Breadcrumb, Accordion, Spinner, useAccordionToggle, ListGroup, Dropdown } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Card, Spinner, Dropdown, Row, Col } from 'react-bootstrap';
 import { Disciplina } from '../../interfaces/Disciplina';
-import { Api } from '../../Api';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useApp } from 'src/contexts/AppContext';
 
-export const Estudar: React.SFC<EstudarProps> = props => {
+export const Estudar: React.FC<EstudarProps> = () => {
 
-    const [disciplinas, setDisciplinas] = useState<Disciplina[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [order, setOrder] = useState('')
+    const app = useApp()
 
-    useEffect(() => getDisciplinas(), [])
+    const [disciplinas, setDisciplinas] = useState<Disciplina[]>(app?.disicplinas || []);
+    const [loading] = useState(false);
+    const [order, setOrder] = useState('');
+    const [showArquivadas, setShowArquivadas] = useState(false)
 
-    const getDisciplinas = () => {
-        setLoading(true)
-        Api.get<Disciplina[]>('disciplinas')
-            .then((response) => {
-                setDisciplinas(response.data)
-            })
-            .finally(() => setLoading(false))
-    }
+    const history = useHistory()
 
-    const Toggle: React.SFC<{ eventKey: string }> = ({ eventKey }) => {
-        const useHandler = useAccordionToggle(eventKey, ev => { })
-        return (
-            <button className="btn" onClick={useHandler}>
-                <i className="fas fa-chevron-down"></i>
-            </button>
-        )
-    }
-
-    const countQuestoes = (disciplina: Disciplina) => {
-        return disciplina.aulas.reduce<number>((acc, aula) => {
-            acc = acc + aula.questoes;
-
-            return acc;
-        }, 0)
-    }
 
     const handlerSetOrder = (_order: "name" | "aulas") => {
 
@@ -59,23 +37,43 @@ export const Estudar: React.SFC<EstudarProps> = props => {
 
     return (
         <React.Fragment>
-
-
             <div className="toolbar">
                 <div className="toolbar--label">DISCIPLINAS</div>
                 <div className="actions">
-                    <Dropdown>
-                        <Dropdown.Toggle variant="transparent">
-                            ordenar por</Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handlerSetOrder('name')} active={order === 'nome'}>
-                                Nome
-                                    </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handlerSetOrder('aulas')} active={order === 'aulas'}>
-                                Aulas
-                                    </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    <div className="actions__item">
+                        <Dropdown>
+                            <Dropdown.Toggle className="no-caret" as={'div'}>
+                                <i className="zmdi zmdi-more-vert"></i>
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={() => handlerSetOrder('name')} active={order === 'nome'}>
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <div>Classificar por Nome</div>
+                                        {order === 'name' && (
+                                            <i className="zmdi zmdi-check ml-2"></i>
+                                        )}
+                                    </div>
+                                </Dropdown.Item>
+                                <Dropdown.Item onClick={() => handlerSetOrder('aulas')} active={order === 'aulas'}>
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <div>Classificar por Aulas</div>
+                                        {order === 'aulas' && (
+                                            <i className="zmdi zmdi-check ml-2"></i>
+                                        )}
+                                    </div>
+                                </Dropdown.Item>
+                                <Dropdown.Divider />
+                                <Dropdown.Item onClick={() => setShowArquivadas(!showArquivadas)}>
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <div>Mostrar arquivadas</div>
+                                        {showArquivadas && (
+                                            <i className="zmdi zmdi-check ml-2"></i>
+                                        )}
+                                    </div>
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
                 </div>
             </div>
 
@@ -87,63 +85,40 @@ export const Estudar: React.SFC<EstudarProps> = props => {
             )}
 
             {(!loading) && (
-                <Accordion>
-                    {disciplinas.map((disciplina, index) =>
-                        <Card key={String(disciplina.id)} className="m-0 elevation-3">
-                            <Card.Body className="p-4">
-                                <Card.Title className="mb-0">
-                                    <span>{disciplina.name}</span>
-                                </Card.Title>
-                                <br />
-                                <Card.Subtitle className="mb-0">
-                                    <span className="font-weight-light mt-1">
-                                        {String(disciplina.aulas?.length).padStart(2, "0")} aulas
-                                                </span>
-                                    <span className="font-weight-light mt-1 ml-3">
-                                        {String(countQuestoes(disciplina)).padStart(2, "0")} questões
-                                                </span>
-                                </Card.Subtitle>
-                                <div className="actions">
-                                    <div className="actions__item">
-                                        <Toggle eventKey={String(index)} />
-                                    </div>
-                                </div>
-                            </Card.Body>
-                            <Card.Body className="p-0 border-bottom">
-                                <Accordion.Collapse eventKey={String(index)}>
-                                    <div className="listview listview--bordered">
-                                        {disciplina.aulas?.map(aula =>
-                                            <div className="listview__item" key={String(aula.id)}>
-                                                <div className="listview__content">
-                                                    <div className="listview__heading">
-                                                        <span className="font-weight-bold mr-1">
-                                                            AULA {aula.ordem?.toString().padStart(2, '0')} -
-                                                                </span>
-                                                        <span>
-                                                            {aula.name}
-                                                        </span>
+                <Row>
+                    {disciplinas
+                        .filter(disciplina => {
+                            if (!showArquivadas && disciplina.arquivada) {
+                                return false;
+                            }
 
-                                                    </div>
-                                                    <p>{aula.questoes} questões</p>
+                            return true;
+                        })
+                        .map(disciplina => {
 
-                                                </div>
-                                                <div className="actions listview__actions">
-                                                    <Link to={`aula/${aula.id}`} className="btn">
-                                                        <i className="fas fa-chevron-right"></i>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </Accordion.Collapse>
-                            </Card.Body>
-                        </Card>
-                    )}
-                </Accordion>
-            )
-            }
+                            const questoes = disciplina.aulas.reduce((acc, aula) => {
+                                return acc + aula.questoes
+                            }, 0)
 
-
+                            return { ...disciplina, questoes }
+                        })
+                        .map(disciplina => (
+                            <Col key={disciplina.id} md={4}>
+                                <Card style={{ cursor: 'pointer' }} onClick={() => history.push(`disciplinas/${disciplina.id}`)}>
+                                    <Card.Body>
+                                        <Card.Title>{disciplina.name}</Card.Title>
+                                        <span className="badge badge-light">
+                                            {String(disciplina.aulas?.length).padStart(2, "0")} aulas
+                                            </span>
+                                        <span className="ml-3 badge badge-light">
+                                            {String(disciplina.questoes).padStart(2, '0')} questões
+                                            </span>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))}
+                </Row>
+            )}
         </React.Fragment >
     )
 }

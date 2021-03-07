@@ -1,4 +1,5 @@
 import { Disciplina } from "./Disciplina";
+import { Registro } from "./Registros";
 
 export interface Aula {
     id: number;
@@ -11,7 +12,16 @@ export interface Aula {
     disciplina_id?: number;
     questoes: number;
     disciplina?: Disciplina;
-    historico?: Historico[]
+    historico?: Historico[];
+    registros?: Registro[];
+    relatorio?: RelatorioItem[];
+}
+
+export interface RelatorioItem {
+    aula_id: number,
+    data: string,
+    total: number,
+    acertos: number
 }
 
 export interface Historico {
