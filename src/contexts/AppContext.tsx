@@ -10,7 +10,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const { logout, token, setUser } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
 
-    Axios.defaults.baseURL = 'http://157.245.218.108:3333/api';
+    Axios.defaults.baseURL = 'https://157.245.218.108:3333/api';
 
     Axios.interceptors.request.use((request) => {
 
