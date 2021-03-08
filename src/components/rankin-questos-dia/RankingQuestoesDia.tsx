@@ -1,7 +1,7 @@
 import React from 'react';
-import { Api } from 'src/Api'; 
 
 import { DateTime } from 'luxon';
+import Axios from 'axios';
 
 export default () => {
 
@@ -9,7 +9,7 @@ export default () => {
 
     const getDados = async () => {
         try {
-            const { data } = await Api.get<QuestoesDia[]>('relatorios/ranking-questoes-dia?limite=5');
+            const { data } = await Axios.get<QuestoesDia[]>('relatorios/ranking-questoes-dia?limite=5');
 
             setDados(data)
         } catch (error) {

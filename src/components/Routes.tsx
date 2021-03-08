@@ -6,7 +6,7 @@ import { Estudar } from '../screens/estudar/Estudar';
 import { Gerenciar } from '../screens/gerenciar/Gerenciar';
 import { Home } from '../screens/home/Home';
 // import { Aula } from '../screens/aula/Aula';
-import { Aula } from '../screens/aulaNew/Aula';
+import { Aula } from '../screens/aula/Aula';
 import ListAulas from '../screens/Disciplina/ListAulas';
 
 export const Routes: React.FC<RoutesInterface> = props => {

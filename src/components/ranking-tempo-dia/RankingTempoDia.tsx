@@ -1,8 +1,8 @@
 import React from 'react';
-import { Api } from 'src/Api';
 
 import { DateTime } from 'luxon';
 import { SecondsToTime } from '../tempo/secondsToTime';
+import Axios from 'axios';
 
 export default () => {
 
@@ -10,7 +10,7 @@ export default () => {
 
     const getDados = async () => {
         try {
-            const { data } = await Api.get<RankingTempo[]>('relatorios/ranking-tempo-dia?limite=5');
+            const { data } = await Axios.get<RankingTempo[]>('relatorios/ranking-tempo-dia?limite=5');
 
             setDados(data)
         } catch (error) {

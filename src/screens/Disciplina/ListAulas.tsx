@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { Dropdown, Spinner } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
 
-import { Api } from 'src/Api';
 import { useApp } from 'src/contexts/AppContext';
 import { Aula } from 'src/interfaces/Aula';
 import { Disciplina } from 'src/interfaces/Disciplina';
 
 import svgEmpty from '../../assets/empty.svg';
 import './ListAula.scss';
+import Axios from 'axios';
 
 const KEY_LS_ORDERBY = 'orderby_aulas';
 const KEY_LS_SHOW_RESPONDIDAS = 'show_aulas_respondidas';
@@ -25,13 +25,12 @@ const ListAulas = () => {
     const { id } = useParams<{ id: string }>();
 
     const history = useHistory()
-    const app = useApp();
 
     React.useEffect(() => {
-        setDisciplina(app?.disicplinas.find(d => d.id === Number(id)) || {} as Disciplina);
         loadAulas();
-    }, [id])
+    }, [])
 
+   
     React.useEffect(() => {
         localStorage.setItem(KEY_LS_ORDERBY, orderBy)
     }, [orderBy])
@@ -60,7 +59,7 @@ const ListAulas = () => {
     const loadAulas = async () => {
         try {
             setLoading(true);
-            const { data } = await Api.get<Aula[]>(`relatorios/respondidas-por-disciplina/${id}`);
+            const { data } = await Axios.get<Aula[]>(`relatorios/respondidas-por-disciplina/${id}`);
 
             setAulas(data)
         } catch (error) {

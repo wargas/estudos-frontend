@@ -34,16 +34,6 @@ export const Home: React.FC<HomeProps> = () => {
                 <Col md={9} style={{ height: 300, marginBottom: 32 }}>
                     <Card className="" style={{ height: "100%" }}>
                         <Card.Body>
-                            {/* <div className="actions">
-                                <div className="actions--item">
-                                    <button
-                                        onClick={() => setPercent(!percent)}
-                                        className={`btn btn-tool ${percent ? 'text-dark' : ''}`}>
-                                        <i className="fas fa-percent"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <Card.Title>Questões Respondidas</Card.Title> */}
                             <ChartQuestoesRespondidas />
                         </Card.Body>
                     </Card>
@@ -92,7 +82,7 @@ export const SelectDisciplina = ({ onChange = (d: Disciplina) => { } }) => {
 
     const app = useApp()
 
-    const [disciplinas] = useState<Disciplina[]>(app?.disicplinas || []);
+    const [disciplinas] = useState<Disciplina[]>([]);
     const [current, setCurrent] = useState({} as Disciplina)
 
     useEffect(() => {

@@ -1,18 +1,20 @@
-import React, { FC, Fragment, useCallback, useState, FormEvent } from 'react';
+import React, { FC, Fragment, useState, useContext } from 'react';
 import { Card, Spinner, Alert } from 'react-bootstrap';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import './Login.scss'
-import * as firebase from 'firebase';
-import { firebaseApp } from '../../firebase/firebase-config';
+import { AuthContext } from 'src/contexts/AuthContext';
+import Axios from 'axios';
 
 
 export const Login: FC = () => {
 
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('')
+    const [error, setError] = useState('');
+
+    const { login } = useContext(AuthContext);
 
     const formik = useFormik({
         initialValues: {
@@ -20,38 +22,34 @@ export const Login: FC = () => {
             password: ''
         },
         validateOnBlur: true,
-        onSubmit: () => {
+        onSubmit: async (values) => {
             setLoading(true)
             setError('')
-            firebaseApp.auth()
-                .signInWithEmailAndPassword(formik.values.email, formik.values.password)
-                .catch(err => setError(err['message']))
-                .finally(() => setLoading(false))
+
+            try {
+                const { email, password } = values;
+                const { data } = await Axios.post("auth/login", { email, password })
+
+                login(data.token)
+
+            } catch (error) {
+                setError(JSON.stringify(error))
+            }
+
+            setLoading(false)
+            // firebaseApp.auth()
+            //     .signInWithEmailAndPassword(formik.values.email, formik.values.password)
+            //     .catch(err => setError(err['message']))
+            //     .finally(() => setLoading(false))
         },
         validationSchema: Yup.object().shape({
             email: Yup.string().email('Email inválido').required('Campo Obrigaório'),
-            password: Yup.string().min(5, 'Senha curta').required('Campo de senha obrigatório')
+            password: Yup.string().min(4, 'Senha curta').required('Campo de senha obrigatório')
         })
 
     })
 
-    const handlerLoginWithGoogle = useCallback((ev: FormEvent) => {
-        ev.preventDefault();
-        const provider = new firebase.auth.GoogleAuthProvider()
-        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-        firebaseApp.auth().signInWithPopup(provider)
-
-    }, [])
-
-    const handlerLoginWithFacebook = useCallback((ev: FormEvent) => {
-        ev.preventDefault()
-        const provider = new firebase.auth.FacebookAuthProvider();
-
-        provider.addScope('user_birthday')
-
-        firebase.auth().signInWithPopup(provider)
-    }, [])
 
     return (
         <Fragment>
@@ -69,17 +67,30 @@ export const Login: FC = () => {
                                 </Alert>
                             }
 
-                            <form onSubmit={formik.handleSubmit}>
+                            <form autoComplete="off" onSubmit={formik.handleSubmit}>
                                 <div className="form-group">
                                     <label htmlFor="" className="form-label">Email</label>
-                                    <input name="email" value={formik.values.email} onChange={formik.handleChange} type="text" className="form-control" />
+                                    <input
+                                        name="email"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        type="email"
+                                        autoComplete="off"
+                                        className="form-control" />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="" className="form-label">Senha</label>
-                                    <input name="password" value={formik.values.password} onChange={formik.handleChange} type="password" className="form-control" />
+                                    <input
+                                        name="password"
+                                        value={formik.values.password}
+                                        onChange={formik.handleChange}
+                                        type="password"
+                                        autoComplete="off"
+                                        className="form-control" />
                                 </div>
                                 <div className="form-group mt-5">
-                                    <button type="submit" className="btn bg-teal btn-block" disabled={!formik.isValid}>
+                                    <button type="submit" className="btn btn-dark bg-green btn-block"
+                                        disabled={!formik.isValid}>
                                         {loading ?
                                             <Spinner animation="border" size="sm" />
                                             :
@@ -87,12 +98,7 @@ export const Login: FC = () => {
                                         }
                                     </button>
                                 </div>
-                                <div className="d-flex justify-content-between">
-                                    <button onClick={handlerLoginWithGoogle} style={{ flex: 1 }} className="btn btn-outline-danger mr-1">
-                                        <i className="fab fa-google"></i> Google</button>
-                                    <button onClick={handlerLoginWithFacebook} style={{ flex: 1 }} className="btn btn-outline-info ml-1">
-                                        <i className="fab fa-facebook-f"></i> Facebook</button>
-                                </div>
+
                             </form>
                         </Card.Body>
                     </Card>

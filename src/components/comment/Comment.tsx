@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { FC, Fragment, useCallback, useEffect, useState } from 'react';
-import { Api } from 'src/Api';
 import { Comentario } from 'src/interfaces/Comentario';
 import { Questao } from '../../interfaces/Questao';
 import Markdown from 'react-markdown';
@@ -10,6 +9,7 @@ import Swal from 'sweetalert2';
 
 import './Comments.scss';
 import { Spinner } from 'react-bootstrap';
+import Axios from 'axios';
 
 export const Comment: FC<CommentProps> = ({ questao }) => {
 
@@ -25,7 +25,7 @@ export const Comment: FC<CommentProps> = ({ questao }) => {
 
     const loadComents = () => {
         setLoading(true)
-        Api.get<Comentario>(`comentarios/${questao.aula_id}/${questao.questao_id}`)
+        Axios.get<Comentario>(`comentarios/${questao.aula_id}/${questao.questao_id}`)
             .then(({ data }) => {
                 setComentario(data);
             }).catch((err) => {
@@ -35,7 +35,7 @@ export const Comment: FC<CommentProps> = ({ questao }) => {
 
     const handlerSaveComment = useCallback(() => {
 
-        Api.post(`comentarios/${questao.aula_id}/${questao.questao_id}`, {
+        Axios.post(`comentarios/${questao.aula_id}/${questao.questao_id}`, {
             texto: comentario.texto
         }).then(() => {
             Swal.fire({

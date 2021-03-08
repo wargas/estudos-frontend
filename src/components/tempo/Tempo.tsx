@@ -4,9 +4,8 @@ import { SecondsToTime } from './secondsToTime';
 import { isNull } from 'util';
 import { Aula } from '../../interfaces/Aula';
 import { Registro } from '../../interfaces/Registros';
-import { Api } from '../../Api';
 import { Spinner } from 'react-bootstrap';
-import { AxiosResponse } from 'axios';
+import Axios, { AxiosResponse } from 'axios';
 
 export const Tempo: React.FC<TempoProps> = ({id}) => {
     
@@ -52,9 +51,9 @@ export const Tempo: React.FC<TempoProps> = ({id}) => {
         data.tempo = secounds;
 
         if (registro?.id) {
-            request = Api.put<Registro>(`registros/${registro.id}`, data)
+            request = Axios.put<Registro>(`registros/${registro.id}`, data)
         } else {
-            request = Api.post<Registro>(`registros`, data)
+            request = Axios.post<Registro>(`registros`, data)
         }
 
         request.then(({ data }) => {
@@ -67,7 +66,7 @@ export const Tempo: React.FC<TempoProps> = ({id}) => {
     
 
     const getAula = (id: string) => {
-        Api.get<Aula>(`aulas/${id}`)
+        Axios.get<Aula>(`aulas/${id}`)
             .then(({ data }) => {
                 setAula(data);
                 setRegistro({

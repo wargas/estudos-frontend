@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { options } from './options';
 import { DateTime } from 'luxon';
-import { Api } from '../../Api';
+import Axios from 'axios';
 
 export const ChartTempoEStadudo: React.FC<ChartTempoEStadudoProps> = () => {
 
@@ -13,7 +13,7 @@ export const ChartTempoEStadudo: React.FC<ChartTempoEStadudoProps> = () => {
 
     
     const getDados = () => {
-        Api.get<Response[]>('relatorios/tempo-por-dia')
+        Axios.get<Response[]>('relatorios/tempo-por-dia')
             .then(({ data: _data }) => {
                 fiilData(_data)
             })

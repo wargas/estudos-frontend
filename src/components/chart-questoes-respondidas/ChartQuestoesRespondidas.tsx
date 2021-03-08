@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { options } from './options';
-import { Api } from '../../Api';
 import { DateTime } from 'luxon';
 import { Card } from 'react-bootstrap';
+import Axios from 'axios';
 
 
 export const ChartQuestoesRespondidas: React.FC<ChartQuestoesRespondidasProps> = () => {
@@ -19,7 +19,7 @@ export const ChartQuestoesRespondidas: React.FC<ChartQuestoesRespondidasProps> =
     useEffect(() => fillData(dados), [percent, metrica])
 
     const getDados = () => {
-        Api.get<QuestoesDia[]>(metrica.api)
+        Axios.get<QuestoesDia[]>(metrica.api)
             .then(({ data: _data }) => {
 
                 const formatedData = _data.map(item => {

@@ -1,33 +1,34 @@
+import Axios from 'axios';
 import React, { createContext, FC, useState, useEffect } from 'react';
-import { firebaseApp } from '../firebase/firebase-config';
 
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
+const TOKEN_LS_KEY = "auth_token"
+
 export const AuthContextProvider: FC = ({ children }) => {
 
-    const [user, setUser] = useState<User>({});
-    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState<User>({} as User);
+    const [token, setToken] = useState("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        setLoading(true)
-        firebaseApp.auth().onAuthStateChanged(user => {
-            setLoading(false)
-            const email = user?.email || '';
-            const uid = user?.uid;
-            const displayName = user?.providerData[0]?.displayName || email.split('@')[0]
-            const photoURL = user?.providerData[0]?.photoURL || ''
-
-            setUser({ email, uid, displayName, photoURL })
-
-            
-        })
+        setToken(localStorage.getItem(TOKEN_LS_KEY) || "");
     }, [])
 
+   
 
+    const login = (token: string) => {
+        localStorage.setItem(TOKEN_LS_KEY, token);
+        setToken(token)
+    }
 
     const logout = () => {
-        firebaseApp.auth().signOut();
+        setToken("");
+
+        localStorage.removeItem(TOKEN_LS_KEY);
     }
+
+    
 
     if (loading) {
         return (
@@ -42,7 +43,7 @@ export const AuthContextProvider: FC = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ logout, user, isLogged: !!user.email }}>
+        <AuthContext.Provider value={{ setUser, logout, user, login, token, isLogged: !!user.email }}>
             {children}
         </AuthContext.Provider>
     )
@@ -50,8 +51,11 @@ export const AuthContextProvider: FC = ({ children }) => {
 
 export type AuthContextProps = {
     logout: () => void;
+    token: string;
     isLogged: boolean;
     user: User;
+    setUser: (user: User) => void;
+    login: (token: string) => void;
 }
 
 export interface User {

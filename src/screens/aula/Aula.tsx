@@ -6,7 +6,6 @@ import { Link, useParams } from 'react-router-dom';
 import Markdown from 'react-markdown';
 import { Card, Row, Col, Button, ProgressBar, Spinner, Dropdown } from 'react-bootstrap';
 
-import { Api } from 'src/Api';
 import { Aula as AulaInterface, Questao, Registro, Respondida } from 'src/interfaces';
 
 import './Aula.scss';
@@ -16,6 +15,7 @@ import { useDialog } from 'src/components/dialog/Dialog';
 import { ListQuestoes } from './ListQuestoes';
 import { Comment } from 'src/components/comment/Comment';
 import EditQuestao from 'src/components/edit-questao/EditQuestao';
+import Axios from 'axios';
 
 export const Aula = () => {
 
@@ -119,7 +119,7 @@ export const Aula = () => {
 
     const loadAula = async () => {
         try {
-            const { data } = await Api.get(`aulas/${id}`);
+            const { data } = await Axios.get(`aulas/${id}`);
 
 
             setAula(data);
@@ -130,7 +130,7 @@ export const Aula = () => {
 
     const loadQuestoes = async () => {
         try {
-            const { data } = await Api.get(`questoes/${id}`);
+            const { data } = await Axios.get(`questoes/${id}`);
 
             setQuestoes(data);
 
@@ -141,7 +141,7 @@ export const Aula = () => {
 
     const loadRespondidas = async () => {
         try {
-            const { data } = await Api.get(`respondidas/${id}`);
+            const { data } = await Axios.get(`respondidas/${id}`);
 
             setRespondidas(data);
 
@@ -204,7 +204,7 @@ export const Aula = () => {
 
         try {
             setLoadingResponder(true);
-            const { data } = await Api.post(`questoes/responder`, _data);
+            const { data } = await Axios.post(`questoes/responder`, _data);
 
             setRespondidas(old => [...old, data])
         } catch (error) {

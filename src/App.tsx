@@ -5,11 +5,11 @@ import { AuthContextProvider } from './contexts/AuthContext';
 
 function App() {
   return (
-    <AppContextProvider>
-      <AuthContextProvider>
+    <AuthContextProvider>
+      <AppContextProvider>
         <Layout />
-      </AuthContextProvider>
-    </AppContextProvider>
+      </AppContextProvider>
+    </AuthContextProvider>
   );
 }
 

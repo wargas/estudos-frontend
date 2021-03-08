@@ -1,19 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Spinner, Dropdown, Row, Col } from 'react-bootstrap';
 import { Disciplina } from '../../interfaces/Disciplina';
 import { useHistory } from 'react-router-dom';
-import { useApp } from 'src/contexts/AppContext';
+import Axios from 'axios';
 
 export const Estudar: React.FC<EstudarProps> = () => {
 
-    const app = useApp()
-
-    const [disciplinas, setDisciplinas] = useState<Disciplina[]>(app?.disicplinas || []);
+    const [disciplinas, setDisciplinas] = useState<Disciplina[]>([]);
     const [loading] = useState(false);
     const [order, setOrder] = useState('');
     const [showArquivadas, setShowArquivadas] = useState(false)
 
     const history = useHistory()
+
+    useEffect(() => {
+        loadDisciplinas()
+    }, [])
+
+
+    const loadDisciplinas = async () => {
+        try {
+            const { data } = await Axios.get("disciplinas");
+
+            console.log(data)
+
+            setDisciplinas(data)
+        } catch (error) {
+
+        }
+    }
 
 
     const handlerSetOrder = (_order: "name" | "aulas") => {

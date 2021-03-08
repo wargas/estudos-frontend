@@ -1,5 +1,5 @@
+import Axios from 'axios';
 import React, { Fragment, useEffect } from 'react';
-import { Api } from 'src/Api';
 import { respondidasByDay } from 'src/services/respondidas';
 
 import './Gerenciar.scss';
@@ -7,7 +7,7 @@ import './Gerenciar.scss';
 export const Gerenciar: React.FC<GerenciarProps> = () => {
 
     useEffect(() => {
-        Api.get('respondidas/7')
+        Axios.get('respondidas/7')
             .then(({data}) => {
                 console.log(respondidasByDay(data))
             })

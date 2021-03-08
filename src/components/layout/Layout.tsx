@@ -26,7 +26,7 @@ export const Layout: React.SFC<LayoutProps> = () => {
 
     return (
         <Fragment>
-            {(!!auth.user.uid) ?
+            {(!!auth.isLogged) ?
                 <HashRouter>
                     <main className="main">
                         <div className="page-loader d-none">

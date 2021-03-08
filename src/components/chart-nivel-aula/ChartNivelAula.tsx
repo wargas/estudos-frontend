@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { Api } from '../../Api';
 import { Aula, Historico } from '../../interfaces/Aula';
 import { Bar } from 'react-chartjs-2';
 import { options } from './options';
 import { useHistory } from 'react-router-dom';
 import { Disciplina } from 'src/interfaces/Disciplina';
+import Axios from 'axios';
 
 export const ChartNivelAula: React.FC<ChartNivelAulaProps> = ({ disciplina }) => {
     const [data, setData] = useState({});
@@ -27,7 +27,7 @@ export const ChartNivelAula: React.FC<ChartNivelAulaProps> = ({ disciplina }) =>
     }
 
     const getAulas = (id: number) => {
-        Api.get<Aula[]>(`relatorios/questoes-media/${id}`)
+        Axios.get<Aula[]>(`relatorios/questoes-media/${id}`)
             .then(({ data: _data }) => {
                 fillData(
                     _data

@@ -1,23 +1,62 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import Axios from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Api } from 'src/Api';
-import { Disciplina } from 'src/interfaces/Disciplina';
+import { AuthContext, User } from './AuthContext';
 
 const AppContext = createContext<AppContextProps | null>(null);
 
 export const AppContextProvider: React.FC = ({ children }) => {
 
-    const [disciplinas, setDisciplinas] = useState<Disciplina[]>([]);
-    const [loading, setLoading] = useState(true);
+    const { logout, token, setUser } = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
+
+    Axios.defaults.baseURL = 'http://157.245.218.108:3333/api';
+
+    Axios.interceptors.request.use((request) => {
+
+        let headers = {}
+
+        if (token) {
+            headers = {
+                authorization: token
+            }
+        }
+
+        request.headers = {
+            ...request.headers,
+            ...headers
+        }
+        return request;
+    }, error => {
+        return Promise.reject(error)
+    })
+
+    Axios.interceptors.response.use(response => {
+        return response;
+    }, error => {
+        if (error.response.status === 403) {
+            logout()
+        }
+    })
 
     useEffect(() => {
-        loadDisciplinas()
-    }, [])
+        if (token.length > 0) {
+            getCurrentUser()
+        } else {
+            setUser({} as User);
+        }
+    }, [token])
 
-    const loadDisciplinas = () => {
-        setLoading(true)
-        Api.get<Disciplina[]>('/disciplinas')
-            .then(({ data }) => setDisciplinas(data))
-            .finally(() => setLoading(false))
+    const getCurrentUser = async () => {
+        setLoading(true);
+        try {
+            const { data } = await Axios.get("me");
+
+            setUser(data);
+        } catch (error) {
+
+        }
+        setLoading(false)
     }
 
     if (loading) {
@@ -32,8 +71,9 @@ export const AppContextProvider: React.FC = ({ children }) => {
         )
     }
 
+
     return (
-        <AppContext.Provider value={{ disicplinas: disciplinas }}>
+        <AppContext.Provider value={null}>
             {children}
         </AppContext.Provider>
     )
@@ -44,5 +84,5 @@ export const useApp = () => {
 }
 
 export interface AppContextProps {
-    disicplinas: Disciplina[]
+
 }

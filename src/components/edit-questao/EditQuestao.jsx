@@ -1,6 +1,6 @@
+import Axios from 'axios';
 import React, { Fragment, useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
-import { Api } from 'src/Api';
 
 export default ({ data, onClose }) => {
 
@@ -11,7 +11,7 @@ export default ({ data, onClose }) => {
     useEffect(() => {
         const loadText = async () => {
             try {
-                const { data: _data } = await Api.get(`questoes/${data.aula_id}/${data.questao_id || 0}`);
+                const { data: _data } = await Axios.get(`questoes/${data.aula_id}/${data.questao_id || 0}`);
 
                 setTexto(_data.text)
             }
@@ -26,7 +26,7 @@ export default ({ data, onClose }) => {
     const onSalvar = async () => {
         setLoading(true)
         try {
-            await Api.post(`questoes/${data.aula_id}/${data.questao_id || 0}`, { texto });
+            await Axios.post(`questoes/${data.aula_id}/${data.questao_id || 0}`, { texto });
 
             onClose(true)
 
@@ -65,7 +65,7 @@ export default ({ data, onClose }) => {
 
             image.append('image', file, 'image');
 
-            const { data } = await Api.post(`questoes/upload`, image);
+            const { data } = await Axios.post(`questoes/upload`, image);
 
             if (data.fileName) {
                 const start = refTextarea.selectionStart;
