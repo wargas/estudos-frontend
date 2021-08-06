@@ -10,7 +10,7 @@ export const UserInfo: FC<UserInfoProps> = props => {
             <div className="user show">
 
                 <div className="user__info" onClick={ev => setShowMenu(!showMenu)}>
-                    <img src={auth.user.photoURL} alt="" className="user__img" />
+                    <img src="https://i.pravatar.cc/300?img=13" alt="" className="user__img" />
                     <div>
                         <div className="user__name">{auth.user.displayName}</div>
                         <div className="user__email">{auth.user.email}</div>

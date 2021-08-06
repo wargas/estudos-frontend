@@ -8,9 +8,9 @@ const AppContext = createContext<AppContextProps | null>(null);
 export const AppContextProvider: React.FC = ({ children }) => {
 
     const { logout, token, setUser } = useContext(AuthContext);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    Axios.defaults.baseURL = 'https://157.245.218.108:3333/api';
+    Axios.defaults.baseURL = 'https://estudos.deltex.work/api';
 
     Axios.interceptors.request.use((request) => {
 
@@ -34,7 +34,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
     Axios.interceptors.response.use(response => {
         return response;
     }, error => {
-        if (error.response.status === 403) {
+        if (error['response']?.status === 403) {
             logout()
         }
     })
@@ -44,6 +44,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
             getCurrentUser()
         } else {
             setUser({} as User);
+            setLoading(false);
         }
     }, [token])
 

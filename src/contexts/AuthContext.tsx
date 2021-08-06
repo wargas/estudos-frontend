@@ -1,4 +1,3 @@
-import Axios from 'axios';
 import React, { createContext, FC, useState, useEffect } from 'react';
 
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
@@ -9,10 +8,12 @@ export const AuthContextProvider: FC = ({ children }) => {
 
     const [user, setUser] = useState<User>({} as User);
     const [token, setToken] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         setToken(localStorage.getItem(TOKEN_LS_KEY) || "");
+        setLoading(false);
     }, [])
 
    
@@ -43,7 +44,7 @@ export const AuthContextProvider: FC = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ setUser, logout, user, login, token, isLogged: !!user.email }}>
+        <AuthContext.Provider value={{ setUser, logout, user, login, token, isLogged: token.length > 0 }}>
             {children}
         </AuthContext.Provider>
     )

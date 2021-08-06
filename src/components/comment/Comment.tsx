@@ -61,13 +61,23 @@ export const Comment: FC<CommentProps> = ({ questao }) => {
 
     }, [comentario])
 
-    const handlerCopiarQuestao = useCallback(() => {
+    const handlerCopiarEnunciado = useCallback(() => {
+
+        const enunciado  = questao.enunciado.replace(/^\([^\)]*\)/, "");
+
+        let texto = `${comentario.texto}${comentario.texto.length > 0 ? '\n\n': ''}${enunciado}`
+
+        setComentario({ ...comentario, texto })
+
+    }, [comentario])
+
+    const handlerCopiarAlternativas = useCallback(() => {
 
         const opcoes = questao.opcoes.map(opcao => {
             return opcao.texto || ""
         }).join("\n\n");
 
-        let texto = questao.enunciado + "\n\n" + opcoes
+        let texto = `${comentario.texto}${comentario.texto.length > 0 ? '\n\n': ''}${opcoes}`
 
         setComentario({ ...comentario, texto })
 
@@ -95,14 +105,16 @@ export const Comment: FC<CommentProps> = ({ questao }) => {
                         onChange={ev => setComentario({ ...comentario, texto: ev.target.value })}
                         value={comentario.texto}
                         className="form-control" style={{ minHeight: 250 }}></textarea>
-                    <button onClick={handlerCopiarQuestao} className="btn btn-dark">Copiar questão</button>
+                    <button onClick={handlerCopiarAlternativas} className="btn btn-dark">Copiar alternativas</button>
+                    <button onClick={handlerCopiarEnunciado} className="btn btn-dark">Copiar enuciado</button>
                     <button onClick={handlerSaveComment} className="btn btn-dark">Salvar Comentário</button>
                 </div>
             )}
             <Markdown
+                className="text-primary"
                 plugins={[gfm, mark]}
                 allowDangerousHtml
-                children={comentario.texto} />
+                children={comentario.texto.replace(/\n/g, "\n\n")} />
         </Fragment>
     )
 }
@@ -112,5 +124,5 @@ export type CommentProps = {
 }
 
 export const mark = (options: any) => {
-    // console.log(options, 'options')
+    
 }

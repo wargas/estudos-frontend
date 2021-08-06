@@ -1,4 +1,5 @@
-import React, { FC, Fragment, useState, useContext } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { FC, Fragment, useState, useContext, useEffect } from 'react';
 import { Card, Spinner, Alert } from 'react-bootstrap';
 
 import { useFormik } from 'formik';
@@ -7,6 +8,7 @@ import * as Yup from 'yup';
 import './Login.scss'
 import { AuthContext } from 'src/contexts/AuthContext';
 import Axios from 'axios';
+import { useHistory } from 'react-router';
 
 
 export const Login: FC = () => {
@@ -14,7 +16,14 @@ export const Login: FC = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const { login } = useContext(AuthContext);
+    const { login, logout } = useContext(AuthContext);
+
+    const { push } = useHistory();
+
+    useEffect( () => {
+        logout();
+    }, []) 
+
 
     const formik = useFormik({
         initialValues: {
@@ -31,16 +40,14 @@ export const Login: FC = () => {
                 const { data } = await Axios.post("auth/login", { email, password })
 
                 login(data.token)
+                push("/dashboard")
 
             } catch (error) {
                 setError(JSON.stringify(error))
             }
 
             setLoading(false)
-            // firebaseApp.auth()
-            //     .signInWithEmailAndPassword(formik.values.email, formik.values.password)
-            //     .catch(err => setError(err['message']))
-            //     .finally(() => setLoading(false))
+           
         },
         validationSchema: Yup.object().shape({
             email: Yup.string().email('Email inválido').required('Campo Obrigaório'),

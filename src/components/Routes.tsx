@@ -1,34 +1,31 @@
 import React from 'react';
 
-import { Switch, Route, Redirect } from 'react-router-dom';
+import {  Route, Redirect } from 'react-router-dom';
 
-import { Estudar } from '../screens/estudar/Estudar';
-import { Gerenciar } from '../screens/gerenciar/Gerenciar';
-import { Home } from '../screens/home/Home';
-// import { Aula } from '../screens/aula/Aula';
-import { Aula } from '../screens/aula/Aula';
-import ListAulas from '../screens/Disciplina/ListAulas';
+
+const Gerenciar = React.lazy(() => import('../screens/gerenciar/Gerenciar'));
+const Home = React.lazy(() => import('../screens/home/Home'));
+const Aula = React.lazy(() => import('../screens/aula/Aula'));
+const ListAulas = React.lazy(() => import('../screens/disciplinas/ListAulas'));
+const Estudar = React.lazy(() => import('../screens/estudar/Estudar'));
 
 export const Routes: React.FC<RoutesInterface> = props => {
-  
-
     return (
         <React.Fragment>
-                <Switch>
-                    <Route exact path="/">
-                        <Redirect to="/dashboard" />
-                    </Route>
-                    <Route exact path="/dashboard" component={Home} />
-                    <Route exact path="/gerenciar" component={Gerenciar} />
-                    <Route exact path="/estudar" component={Estudar} />
-                    <Route exact path="/disciplinas/:id" component={ListAulas} />
-                    <Route exact path="/aula/:id" component={Aula} />
-                    <Route path="*">
-                        <Redirect to="/" />
-                    </Route>
-                </Switch>
+            <React.Suspense fallback={<p>carregando</p>}>
+
+                <Route exact path="/dashboard" component={Home} />
+                <Route exact path="/gerenciar" component={Gerenciar} />
+                <Route exact path="/estudar" component={Estudar} />
+                <Route exact path="/disciplinas/:id" component={ListAulas} />
+                <Route exact path="/aula/:id" component={Aula} />
+                <Route exact path="/">
+                    <Redirect to="/dashboard" />
+                </Route>
+
+            </React.Suspense>
         </React.Fragment>
     )
 }
 
-export interface RoutesInterface {}
+export interface RoutesInterface { }

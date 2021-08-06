@@ -4,7 +4,6 @@ import { Spinner } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
 
-import { useApp } from 'src/contexts/AppContext';
 import { Aula } from 'src/interfaces/Aula';
 import { Disciplina } from 'src/interfaces/Disciplina';
 
@@ -27,6 +26,7 @@ const ListAulas = () => {
     const history = useHistory()
 
     React.useEffect(() => {
+        loadDisciplina();
         loadAulas();
     }, [])
 
@@ -44,8 +44,15 @@ const ListAulas = () => {
         }
     }, [showRespondidas])
 
+    const loadDisciplina = async () => {
+        try {
+            const { data } = await Axios.get(`disciplinas/${id}`);
 
-
+            setDisciplina(data)
+        } catch (error) {
+            
+        }
+    }
 
     const filterAulas = (_aula: Aula) => {
         if (!showRespondidas) {
