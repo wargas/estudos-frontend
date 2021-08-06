@@ -77,7 +77,7 @@ export default function Gerenciar() {
       <button onClick={() => openModal({
         content: Teste,
         data: { id: 1},
-        title: "Wargas"
+        title: "Wargas !"
       })} className="btn btn-info">Abrir modal</button>
     </Fragment>
   );
