@@ -1,188 +1,204 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
-import { Spinner } from 'react-bootstrap';
-import { useHistory, useParams } from 'react-router-dom';
-import { DateTime } from 'luxon';
+import React, { useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import qs from "querystring";
 
-import { Aula } from 'src/interfaces/Aula';
-import { Disciplina } from 'src/interfaces/Disciplina';
+import { Disciplina } from "src/interfaces/Disciplina";
+import { CenterLoading } from "src/components/center-loading/CenterLoading";
 
-import svgEmpty from '../../assets/empty.svg';
-import './ListAula.scss';
-import Axios from 'axios';
+import "./ListAula.scss";
+import Axios from "axios";
+import { AulaItem } from "./AulaItem";
+import { useModal } from "src/contexts/ModalContext";
+import { FormAula } from "./FormAula";
+import { Aula as AulaInterface } from "src/interfaces";
 
-const KEY_LS_ORDERBY = 'orderby_aulas';
-const KEY_LS_SHOW_RESPONDIDAS = 'show_aulas_respondidas';
-
+export interface Aula extends AulaInterface {
+  meta?: {
+    questoes_count: number;
+  };
+  days: {
+    data: string;
+    acertos: number;
+    erros: number;
+    total: number;
+    last: boolean;
+  }[];
+}
 
 const ListAulas = () => {
-    const [disciplina, setDisciplina] = React.useState<Disciplina>({} as Disciplina);
-    const [orderBy, setOrderBy] = React.useState(localStorage.getItem(KEY_LS_ORDERBY) || 'ordem');
-    const [showRespondidas, setShowRespondidas] = React.useState(localStorage.getItem(KEY_LS_SHOW_RESPONDIDAS) || false);
-    const [aulas, setAulas] = React.useState<Aula[]>([]);
-    const [loading, setLoading] = React.useState(false);
-    const { id } = useParams<{ id: string }>();
+  const [disciplina, setDisciplina] = useState<Disciplina>({} as Disciplina);
+  const [aulas, setAulas] = useState<Aula[]>([]);
 
-    const history = useHistory()
+  const [orderBy, setOrderBy] = useState("ordem:asc");
 
-    React.useEffect(() => {
-        loadDisciplina();
-        loadAulas();
-    }, [])
+  const [loading, setLoading] = React.useState(false);
+  const { id } = useParams<{ id: string }>();
 
-   
-    React.useEffect(() => {
-        localStorage.setItem(KEY_LS_ORDERBY, orderBy)
-    }, [orderBy])
+  const history = useHistory();
+  const [openModal] = useModal();
 
+  React.useEffect(() => {
+    loadDisciplina();
+  }, [orderBy]);
 
-    React.useEffect(() => {
-        if (showRespondidas) {
-            localStorage.setItem(KEY_LS_SHOW_RESPONDIDAS, "true")
-        } else {
-            localStorage.removeItem(KEY_LS_SHOW_RESPONDIDAS);
-        }
-    }, [showRespondidas])
+  function handleSetOrderBy(
+    coluna: "ordem" | "name" | "questoes" | "nota" | "last"
+  ) {
+    const [c = "ordem", o = "asc"] = orderBy.split(":");
 
-    const loadDisciplina = async () => {
-        try {
-            const { data } = await Axios.get(`disciplinas/${id}`);
-
-            setDisciplina(data)
-        } catch (error) {
-            
-        }
+    if (c === coluna) {
+      setOrderBy(`${c}:${o === "asc" ? "desc" : "asc"}`);
+    } else {
+      setOrderBy(`${coluna}:asc`);
     }
+  }
 
-    const filterAulas = (_aula: Aula) => {
-        if (!showRespondidas) {
-            return !_aula.relatorio?.some(item => DateTime.fromISO(item.data)
-                .hasSame(DateTime.local(), "day"))
-        }
+  const loadDisciplina = async () => {
+    setLoading(true);
+    try {
+      const params = {
+        disciplina_id: id,
+        order_by: orderBy,
+      };
+      const [responseDisciplina, responseAulas] = await Promise.all([
+        Axios.get(`disciplinas/${id}`),
+        Axios.get(`aulas?${qs.stringify(params)}`),
+      ]);
 
-        return true;
+      setDisciplina(responseDisciplina.data);
+      setAulas(responseAulas.data);
+    } catch (error) {}
+    setLoading(false);
+  };
+
+  const handleCloseForm = (result: any) => {
+    if (result) {
+      loadDisciplina();
     }
+  };
 
-    const loadAulas = async () => {
-        try {
-            setLoading(true);
-            const { data } = await Axios.get<Aula[]>(`relatorios/respondidas-por-disciplina/${id}`);
+  return (
+    <React.Fragment>
+      <div className="toolbar pl-3">
+        <div className="actions ml-0 mr-2">
+          <i
+            onClick={() => history.push("/estudar")}
+            style={{ fontSize: 12 }}
+            className="actions__item fas fa-chevron-left"
+          ></i>
+        </div>
+        <div className="toolbar__label">{disciplina?.name || "NOME"}</div>
+        <div className="actions">
+          <i
+            onClick={() =>
+              openModal(
+                FormAula,
+                {
+                  title: "Adicionar Aula",
+                  size: "md",
+                  data: { disciplina_id: id },
+                },
+                handleCloseForm
+              )
+            }
+            className="zmdi zmdi-plus actions__item"
+          ></i>
+          <i className="zmdi zmdi-refresh-alt actions__item"></i>
+        </div>
+      </div>
+      <div
+        style={{ position: "relative", minHeight: 200 }}
+        className="card p-0"
+      >
+        {loading && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              backgroundColor: "#ffffffaa",
+            }}
+          >
+            <CenterLoading show={loading} />
+          </div>
+        )}
 
-            setAulas(data)
-        } catch (error) {
-
-        }
-
-        setLoading(false);
-    }
-
-    return (
-        <React.Fragment>
-            <div className="card">
-                <div className="toolbar toolbar--inner mb-0">
-                    <div className="toolbar--label">
-                        <h5>{disciplina.name || '...'}</h5>
-                        <span className="text-muted">{aulas.length} aulas</span>
-                    </div>
-                    <div className="actions">
-                        <span className="badge">Mostrar</span>
-                        <span
-                            onClick={() => setShowRespondidas(old => !old)}
-                            className={`badge badge-item mx-1 badge-${showRespondidas ? 'success' : 'light'}`}>Respondidas hoje</span>
-                        <span className="badge ml-3">Ordenar</span>
-                        <span
-                            onClick={() => setOrderBy('ordem')}
-                            className={`badge badge-item mx-1 badge-${orderBy === 'ordem' ? 'success' : 'light'}`}>Por ordem</span>
-                        <span
-                            onClick={() => setOrderBy('data')}
-                            className={`badge badge-item mx-1 badge-${orderBy === 'data' ? 'success' : 'light'}`}>Por data</span>
-                        <span
-                            onClick={() => setOrderBy('nota')}
-                            className={`badge badge-item mx-1 badge-${orderBy === 'nota' ? 'success' : 'light'}`}>Por nota</span>
-
-                    </div>
-
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th onClick={() => handleSetOrderBy("ordem")}>
+                <div className="d-flex">
+                  Ordem
+                  {orderBy.startsWith("ordem:") && (
+                    <i
+                      className={`text-muted ml-auto fas fa-chevron-${
+                        orderBy.endsWith("asc") ? "down" : "up"
+                      }`}
+                    ></i>
+                  )}
                 </div>
-
-            </div>
-            <div className="card">
-                <div className="card-body p-0">
-                    {loading && (
-                        <div className="d-flex p-5 align-items-center justify-content-center">
-                            <Spinner animation="border" />
-                        </div>
-                    )}
-                    {aulas.filter(filterAulas).length > 0 && (
-                        <div className="listview listview--bordered">
-                            {aulas
-                                .map(aula => {
-
-                                    const datas = aula.relatorio?.map(item => DateTime.fromISO(item.data).toMillis()) || [];
-
-                                    const maxDate = DateTime.fromMillis(Math.max(...datas))
-
-                                    const last = aula.relatorio?.find(item => DateTime.fromISO(item.data).hasSame(maxDate, "day"))
-
-                                    if (!last) {
-                                        return { ...aula, nota: 0, last: null }
-                                    } else {
-                                        return { ...aula, last, nota: Math.floor(last.acertos / last.total * 100) / 100 }
-                                    }
-                                })
-                                .filter(filterAulas)
-                                .sort((a, b) => a.ordem - b.ordem)
-                                .sort((a, b) => {
-                                    if (orderBy === 'nota') {
-                                        return a.nota - b.nota;
-                                    }
-
-                                    return 0;
-                                })
-                                .sort((a,b) => {
-                                    if(orderBy === 'data') {
-                                        return DateTime.fromISO(a.last?.data || '').toMillis() - DateTime.fromISO(b.last?.data || '').toMillis()
-                                    }
-
-                                    return 0;
-                                })
-                                .map(aula => (
-                                    <div key={aula.id} className="listview__item pl-3">
-                                        <i className="avatar-char bg-green">{String(aula.ordem).padStart(2, '0')}</i>
-                                        <div className="listview__content">
-                                            <div className="listview__heading">
-                                                <span>{aula.name}</span>
-                                            </div>
-                                            <div className="listview__attrs">
-                                                <span>{aula.questoes} questões </span>
-                                                {aula.last && (
-                                                    <>
-                                                        <span>{DateTime.fromISO(aula.last?.data || '').toFormat('dd/MM/yyyy')}</span>
-                                                        <span>{(aula.nota * 100).toFixed(0)}% de acerto</span>
-                                                        <span>respondida {aula.relatorio?.length} veze(s)</span>
-                                                    </>
-                                                )}
-                                                {!aula.last && <span>Nunca respondeu</span>}
-                                            </div>
-                                        </div>
-                                        <div className="actions listview__actions">
-                                            <i onClick={() => history.push(`/aula/${aula.id}`)} className="actions__item zmdi zmdi-arrow-right"></i>
-                                        </div>
-                                    </div>
-                                ))}
-                        </div>
-                    )}
-                    {aulas.filter(filterAulas).length === 0 && !loading && (
-                        <div className="d-flex flex-column p-5 align-items-center justify-content-center">
-                            <img width={400} src={svgEmpty} alt="" />
-
-                            <h5 className="d-flex text-muted mt-5">Nenhum aula encontrada!</h5>
-                        </div>
-                    )}
+              </th>
+              <th onClick={() => handleSetOrderBy("name")}>
+                <div className="d-flex">
+                  Nome
+                  {orderBy.startsWith("name:") && (
+                    <i
+                      className={`text-muted ml-auto fas fa-chevron-${
+                        orderBy.endsWith("asc") ? "down" : "up"
+                      }`}
+                    ></i>
+                  )}
                 </div>
-            </div>
-
-        </React.Fragment>
-    )
-}
+              </th>
+              <th onClick={() => handleSetOrderBy("last")}>
+                <div className="d-flex">
+                  Última
+                  {orderBy.startsWith("last:") && (
+                    <i
+                      className={`text-muted ml-auto fas fa-chevron-${
+                        orderBy.endsWith("asc") ? "down" : "up"
+                      }`}
+                    ></i>
+                  )}
+                </div>
+              </th>
+              <th onClick={() => handleSetOrderBy("nota")}>
+                <div className="d-flex">
+                  Nota
+                  {orderBy.startsWith("nota:") && (
+                    <i
+                      className={`text-muted ml-auto fas fa-chevron-${
+                        orderBy.endsWith("asc") ? "down" : "up"
+                      }`}
+                    ></i>
+                  )}
+                </div>
+              </th>
+              <th colSpan={2} onClick={() => handleSetOrderBy("questoes")}>
+                <div className="d-flex">
+                  Questões
+                  {orderBy.startsWith("questoes:") && (
+                    <i
+                      className={`text-muted ml-auto fas fa-chevron-${
+                        orderBy.endsWith("asc") ? "down" : "up"
+                      }`}
+                    ></i>
+                  )}
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {aulas.map((aula) => (
+              <AulaItem key={aula.id + ""} aula={aula} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default ListAulas;

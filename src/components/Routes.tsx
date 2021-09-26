@@ -18,7 +18,7 @@ export const Routes: React.FC<RoutesInterface> = props => {
                 <Route exact path="/gerenciar" component={Gerenciar} />
                 <Route exact path="/estudar" component={Estudar} />
                 <Route exact path="/disciplinas/:id" component={ListAulas} />
-                <Route exact path="/aula/:id" component={Aula} />
+                <Route exact path="/aula/:id/:questao" component={Aula} />
                 <Route exact path="/">
                     <Redirect to="/dashboard" />
                 </Route>

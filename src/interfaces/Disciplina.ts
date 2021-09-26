@@ -6,5 +6,9 @@ export interface Disciplina {
     user_id?: string;
     concurso_id?: number;
     aulas: Aula[],
-    arquivada: boolean
+    arquivada: boolean,
+    meta?: {
+        aulas_count: number,
+        questoes_count: number
+    }
 }

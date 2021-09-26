@@ -35,11 +35,7 @@ export const Tempo: React.FC<TempoProps> = ({ id }) => {
       if (interval) clearInterval(interval);
     }
 
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
+    return () => clearInterval(interval);
   }, [play, secounds]);
 
   useEffect(() => {
@@ -93,21 +89,20 @@ export const Tempo: React.FC<TempoProps> = ({ id }) => {
       </div>
     );
   }
-
   return (
     <React.Fragment>
       <div className="d-flex align-items-center justify-content-between p-3">
         <div className="tempo mx-3">
-          <h3 className="p-0 m-0 text-bold">
+          <h3 className="p-0 m-0 text-bold text-white">
             {Duration.fromObject({ seconds: secounds }).toFormat("hh:mm:ss")}
           </h3>
         </div>
         <div className="actions">
-          <button onClick={() => setPlay(!play)} className="btn">
+          <button onClick={() => setPlay(!play)} className="btn text-white">
             {play && <i className="fas fa-pause"></i>}
             {!play && <i className="fas fa-play"></i>}
           </button>
-          <button onClick={handleSave} className="btn">
+          <button onClick={handleSave} className="btn text-white">
             {!loading && <i className="fas fa-check"></i>}
             {loading && <Spinner size="sm" animation="border" />}
           </button>

@@ -1,4 +1,5 @@
 import { Disciplina } from "./Disciplina";
+import { Questao } from "./Questao";
 import { Registro } from "./Registros";
 
 export interface Aula {
@@ -10,7 +11,7 @@ export interface Aula {
     user_id?: number;
     concurso_id?: number;
     disciplina_id?: number;
-    questoes: number;
+    questoes: Questao[];
     disciplina?: Disciplina;
     historico?: Historico[];
     registros?: Registro[];

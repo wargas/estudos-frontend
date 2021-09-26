@@ -39,8 +39,11 @@ export const Login: FC = () => {
                 const { email, password } = values;
                 const { data } = await Axios.post("auth/login", { email, password })
 
-                login(data.token)
-                push("/dashboard")
+                if(data.token) {
+                    login(data.token)
+                    push("/dashboard")
+                }
+
 
             } catch (error) {
                 setError(JSON.stringify(error))
@@ -55,8 +58,6 @@ export const Login: FC = () => {
         })
 
     })
-
-
 
     return (
         <Fragment>
@@ -83,7 +84,7 @@ export const Login: FC = () => {
                                         onChange={formik.handleChange}
                                         type="email"
                                         autoComplete="off"
-                                        className="form-control" />
+                                        className="form-control bg-light" />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="" className="form-label">Senha</label>
@@ -93,7 +94,7 @@ export const Login: FC = () => {
                                         onChange={formik.handleChange}
                                         type="password"
                                         autoComplete="off"
-                                        className="form-control" />
+                                        className="form-control bg-light" />
                                 </div>
                                 <div className="form-group mt-5">
                                     <button type="submit" className="btn btn-dark bg-green btn-block"

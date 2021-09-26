@@ -7,7 +7,7 @@ export const Sidebar: React.SFC<SidebarProps> = ({ open }) => {
 
     return (
         <React.Fragment>
-            <aside className={`sidebar sidebar--hidden ${open ? 'toggled' : ''}`}>
+            <aside className={`sidebar bg-white ${open ? 'toggled' : ''}`}>
                 <div className="scrollbar-inner">
 
                     <UserInfo />

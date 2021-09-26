@@ -101,3 +101,11 @@
 @import "inc/vendor-overrides/jqTree";
 @import "inc/vendor-overrides/rateYo";
 @import "inc/vendor-overrides/jquery-text-counter";
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+* {
+    scrollbar-width: thin
+}

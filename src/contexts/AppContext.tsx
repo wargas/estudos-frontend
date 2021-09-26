@@ -10,7 +10,9 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const { logout, token, setUser } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
 
-    Axios.defaults.baseURL = 'https://estudos.deltex.work/api';
+    // Axios.defaults.baseURL = 'https://estudos.deltex.work/api';
+    Axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+
 
     Axios.interceptors.request.use((request) => {
 
@@ -18,7 +20,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
 
         if (token) {
             headers = {
-                authorization: token
+                authorization: `bearer ${token}`
             }
         }
 

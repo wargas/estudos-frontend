@@ -50,7 +50,11 @@
     "deploy": "yarn build && scp -r ./build/* root@157.245.218.108:/var/www/html/estudos/"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "react-hooks/exhaustive-deps": false,
+      "@typescript-eslint/no-unused-vars": false
+    }
   },
   "browserslist": {
     "production": [

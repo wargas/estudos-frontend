@@ -19,7 +19,7 @@ export const Layout: React.FC<LayoutProps> = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    document.body.setAttribute("data-ma-theme", "blue-grey");
+    document.body.setAttribute("data-ma-theme", "indigo");
   }, []);
 
   const auth = useContext(AuthContext);
@@ -62,10 +62,10 @@ export const Layout: React.FC<LayoutProps> = () => {
                 />
                 <Sidebar open={sidebarOpen} />
                 <section
-                  className="content content--full"
+                  className="content pr-0"
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <Container fluid>
+                  <Container fluid style={{paddingLeft: '2.2rem', paddingRight: '2.2rem'}}>
                     <Routes />
                   </Container>
                 </section>

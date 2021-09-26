@@ -73,8 +73,8 @@ export const Comment: FC<CommentProps> = ({ questao }) => {
 
     const handlerCopiarAlternativas = useCallback(() => {
 
-        const opcoes = questao.opcoes.map(opcao => {
-            return opcao.texto || ""
+        const opcoes = questao.alternativas.map(opcao => {
+            return opcao.conteudo || "" 
         }).join("\n\n");
 
         let texto = `${comentario.texto}${comentario.texto.length > 0 ? '\n\n': ''}${opcoes}`
@@ -104,7 +104,7 @@ export const Comment: FC<CommentProps> = ({ questao }) => {
                     <textarea
                         onChange={ev => setComentario({ ...comentario, texto: ev.target.value })}
                         value={comentario.texto}
-                        className="form-control" style={{ minHeight: 250 }}></textarea>
+                        className="form-control bg-light" style={{ minHeight: 250 }}></textarea>
                     <button onClick={handlerCopiarAlternativas} className="btn btn-dark">Copiar alternativas</button>
                     <button onClick={handlerCopiarEnunciado} className="btn btn-dark">Copiar enuciado</button>
                     <button onClick={handlerSaveComment} className="btn btn-dark">Salvar Comentário</button>

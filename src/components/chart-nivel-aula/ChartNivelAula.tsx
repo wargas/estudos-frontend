@@ -58,9 +58,9 @@ export const ChartNivelAula: React.FC<ChartNivelAulaProps> = ({ disciplina }) =>
                     }
                     const last = aula?.historico.reduce<Historico>((acc, it) => {
 
-                        if ((it.acertos + it.erros) < aula.questoes) {
+                        if ((it.acertos + it.erros) < aula.questoes.length) {
                             return acc;
-                        }
+                        } 
 
                         if (acc.data === '') {
                             acc = it

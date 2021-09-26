@@ -3,7 +3,8 @@ export interface Respondida {
     aula_id: number;
     horario: string; 
     questao: number;
-    resposta: number;
-    gabarito: number;
+    questao_id: number;
+    resposta: string;
+    gabarito: string;
     acertou: boolean;
 }

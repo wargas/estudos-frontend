@@ -31,8 +31,7 @@ export const useDialog = (Element, callback) => {
         }
 
         const options = {...defaults, ..._options};
-
-        // const [title, setTitle] = React.useState(options.title);
+        
         const title = options.title;
 
         return (
