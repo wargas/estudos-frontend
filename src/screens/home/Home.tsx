@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, Fragment } from "react";
-import { Dropdown, Card, Col, Row } from "react-bootstrap";
+import React, { useState, useEffect, Fragment } from 'react';
+import { Dropdown, Card, Col, Row } from 'react-bootstrap';
 
-import "./Home.scss";
+import './Home.scss';
 
-import { ChartTempoEStadudo } from "../../components/chart-tempo-estudado/ChartTempoEstudado";
-import { Disciplina } from "../../interfaces/Disciplina";
-import { ChartQuestoesRespondidas } from "../../components/chart-questoes-respondidas/ChartQuestoesRespondidas";
+import { ChartTempoEStadudo } from '../../components/chart-tempo-estudado/ChartTempoEstudado';
+import { Disciplina } from '../../interfaces/Disciplina';
+import { ChartQuestoesRespondidas } from '../../components/chart-questoes-respondidas/ChartQuestoesRespondidas';
 
-import RankingQuestoesDia from "src/components/rankin-questos-dia/RankingQuestoesDia";
-import RankingTempoDia from "src/components/ranking-tempo-dia/RankingTempoDia";
+import RankingQuestoesDia from 'src/components/rankin-questos-dia/RankingQuestoesDia';
+import RankingTempoDia from 'src/components/ranking-tempo-dia/RankingTempoDia';
 
 export interface HomeProps {}
 
@@ -20,17 +20,16 @@ export default function Home() {
         <Col style={{ height: 300 }}>
           <Card
             style={{
-              overflow: "auto",
-              height: "100%",
+              overflow: 'auto',
+              height: '100%',
               paddingBottom: 16,
-              scrollbarWidth: "none",
-            }}
-          >
+              scrollbarWidth: 'none',
+            }}>
             <RankingQuestoesDia />
           </Card>
         </Col>
         <Col md={9} style={{ height: 300, marginBottom: 32 }}>
-          <Card className="" style={{ height: "100%" }}>
+          <Card className='' style={{ height: '100%' }}>
             <Card.Body>
               <ChartQuestoesRespondidas />
             </Card.Body>
@@ -40,10 +39,10 @@ export default function Home() {
 
       <Row>
         <Col md={9} style={{ height: 300, marginBottom: 32 }}>
-          <Card className="" style={{ height: "100%" }}>
+          <Card className='' style={{ height: '100%' }}>
             <Card.Body>
-              <Card.Title>Tempo Estudado por Dia</Card.Title>
-              <div style={{ flexDirection: "column", display: "flex" }}>
+              <Card.Title>Tempo Estudado por Dia (teste)</Card.Title>
+              <div style={{ flexDirection: 'column', display: 'flex' }}>
                 <ChartTempoEStadudo />
               </div>
             </Card.Body>
@@ -52,12 +51,11 @@ export default function Home() {
         <Col style={{ height: 300 }}>
           <Card
             style={{
-              overflow: "auto",
-              height: "100%",
+              overflow: 'auto',
+              height: '100%',
               paddingBottom: 16,
-              scrollbarWidth: "none",
-            }}
-          >
+              scrollbarWidth: 'none',
+            }}>
             <RankingTempoDia />
           </Card>
         </Col>
@@ -91,14 +89,14 @@ export const SelectDisciplina = ({ onChange = (d: Disciplina) => {} }) => {
 
   useEffect(() => {
     if (current) {
-      localStorage.setItem("current-disciplina", JSON.stringify(current));
+      localStorage.setItem('current-disciplina', JSON.stringify(current));
 
       onChange(current);
     }
   }, [current]);
 
   const getLSCurrent = () => {
-    const lsCurrent = localStorage.getItem("current-disciplina");
+    const lsCurrent = localStorage.getItem('current-disciplina');
 
     if (lsCurrent) {
       setCurrent(JSON.parse(lsCurrent));
@@ -107,15 +105,14 @@ export const SelectDisciplina = ({ onChange = (d: Disciplina) => {} }) => {
 
   return (
     <Dropdown alignRight>
-      <Dropdown.Toggle as={"div"} style={{ cursor: "pointer" }} split>
-        {!!current ? current.name : "Selecione"}
+      <Dropdown.Toggle as={'div'} style={{ cursor: 'pointer' }} split>
+        {!!current ? current.name : 'Selecione'}
       </Dropdown.Toggle>
       <Dropdown.Menu>
         {disciplinas.map((disciplina) => (
           <Dropdown.Item
             onClick={() => setCurrent(disciplina)}
-            key={String(disciplina.id)}
-          >
+            key={String(disciplina.id)}>
             {disciplina.name}
           </Dropdown.Item>
         ))}
