@@ -29,5 +29,5 @@ jobs:
 
       - name: Run NPM commands
         run: |
-          npm ci
-          npm run build
+          yarn install
+          yarn build
