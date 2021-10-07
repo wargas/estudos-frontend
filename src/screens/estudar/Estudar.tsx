@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import qs from "querystring";
-import { Card, Spinner, Dropdown, Row, Col } from "react-bootstrap";
+import qs from "query-string";
+import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 
@@ -8,6 +8,7 @@ import { useModal } from "src/contexts/ModalContext";
 import { FormDisciplina } from "./FormDisciplian";
 import { Disciplina } from "../../interfaces/Disciplina";
 import { CenterLoading } from "src/components/center-loading/CenterLoading";
+import { toast } from "react-toastify";
 
 export default function Estudar() {
   const [disciplinas, setDisciplinas] = useState<Disciplina[]>([]);
@@ -24,6 +25,8 @@ export default function Estudar() {
 
   const loadDisciplinas = async () => {
     setLoading(true);
+
+    toast.loading('Carregando disciplinas', {toastId: 'loadDisciplinas', position: 'top-right'})
     try {
       const query = {
         whereArquivada: 0,
@@ -38,6 +41,7 @@ export default function Estudar() {
       handlerSetOrder("name");
     } catch (error) {}
     setLoading(false);
+    toast.dismiss('loadDisciplinas')
   };
 
   const handlerSetOrder = (_order: "name" | "aulas") => {

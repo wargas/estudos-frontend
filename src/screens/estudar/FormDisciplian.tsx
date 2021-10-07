@@ -2,6 +2,7 @@ import Axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
+import { toast } from "react-toastify";
 import { ModalProps } from "src/contexts/ModalContext";
 
 export function FormDisciplina({ onClose, data }: ModalProps) {
@@ -16,6 +17,8 @@ export function FormDisciplina({ onClose, data }: ModalProps) {
       const method = id ? 'put' : 'post'
       const url = id ? `disciplinas/${id}` : 'disciplinas'
 
+      
+
       try {
         const response = await Axios.request({
             url,
@@ -23,10 +26,12 @@ export function FormDisciplina({ onClose, data }: ModalProps) {
             data: values
         })
 
+        toast.success('Disciplina salva com sucesso!')
+
         onClose(response.data)
 
       } catch (error) {
-
+        toast.error('Ocorreu um erro ao tentar salvar.')
       }
     },
   });

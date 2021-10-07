@@ -153,6 +153,7 @@ export function QuestaoItem({ questaoId = 0 }) {
                     FormQuestoes,
                     {
                       title: "Editar Questão",
+                      size: 'lg',
                       data: { aula_id: questao.aula_id, questao_id: questaoId },
                     },
                     (result: any) => {

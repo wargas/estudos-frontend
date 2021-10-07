@@ -2,6 +2,7 @@ import Axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
+import { toast } from "react-toastify";
 import { CenterLoading } from "src/components/center-loading/CenterLoading";
 import { ModalProps } from "src/contexts/ModalContext";
 
@@ -25,9 +26,11 @@ export function FormAula({ data, onClose }: ModalProps) {
       try {
         setLoading("SAVE_AULA");
         const response = await Axios.request({ method, url, data: _data });
-
+        toast.success('Aula salva com sucesso!')
         onClose(response.data);
-      } catch (error) {}
+      } catch (error) {
+        toast.error('Ocorreu um erro ao tentar salvar a aula')
+      }
       setLoading("");
     },
   });

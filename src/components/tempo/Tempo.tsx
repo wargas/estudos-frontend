@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Aula } from "../../interfaces/Aula";
-import { Registro } from "../../interfaces/Registros";
-import { Spinner } from "react-bootstrap";
 
 import { Duration, DateTime } from "luxon";
 import Axios, { AxiosResponse } from "axios";
+import { toast } from 'react-toastify'
+import { Spinner } from "react-bootstrap";
+
+import { Aula } from "../../interfaces/Aula";
+import { Registro } from "../../interfaces/Registros";
+
 
 export const Tempo: React.FC<TempoProps> = ({ id }) => {
   const [play, setPlay] = useState(false);
@@ -21,7 +24,7 @@ export const Tempo: React.FC<TempoProps> = ({ id }) => {
   }, [id]);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout = setInterval(() => {}, 1000);
+    let interval = setInterval(() => {}, 1000);
     if (play) {
       interval = setInterval(() => {
         if (start > 0) {
@@ -56,7 +59,8 @@ export const Tempo: React.FC<TempoProps> = ({ id }) => {
     setLoading(true);
     let request: Promise<AxiosResponse<Registro>>;
     let data = { tempo: secounds, ...registro };
-    data.tempo = secounds;
+    data.tempo = Math.floor(secounds);
+
 
     if (registro?.id) {
       request = Axios.put<Registro>(`registros/${registro.id}`, data);
@@ -66,6 +70,9 @@ export const Tempo: React.FC<TempoProps> = ({ id }) => {
 
     request.then(({ data }) => {
       setRegistro(data);
+    }).catch(error => {
+      // alert('ocorreu um erro')
+      toast.error('erro ao atualizar tempo estudado', {toastId: 'errorUpdateTime'})
     });
 
     request.finally(() => setLoading(false));

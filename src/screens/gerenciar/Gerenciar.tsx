@@ -9,7 +9,7 @@ import "./Gerenciar.scss";
 
 export default function Gerenciar() {
   const [currentDate, setCurentDate] = useState(
-    DateTime.local().minus({ day: 1 })
+    DateTime.local().minus({ days: 1 })
   );
 
   const [openModal] = useModal();
@@ -41,7 +41,7 @@ export default function Gerenciar() {
             <div className="input-group-prepend">
               <button
                 className="btn btn-primary"
-                onClick={() => setCurentDate((old) => old.minus({ day: 1 }))}
+                onClick={() => setCurentDate((old) => old.minus({ days: 1 }))}
               >
                 <i className="zmdi zmdi-chevron-left"></i>
               </button>
@@ -55,7 +55,7 @@ export default function Gerenciar() {
             <div className="input-group-append">
               <button
                 className="btn btn-primary"
-                onClick={() => setCurentDate((old) => old.plus({ day: 1 }))}
+                onClick={() => setCurentDate((old) => old.plus({ days: 1 }))}
               >
                 <i className="zmdi zmdi-chevron-right"></i>
               </button>

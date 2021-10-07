@@ -1,11 +1,12 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import qs from 'querystring'
+import qs from 'query-string'
 
 import { Spinner } from "react-bootstrap";
 import { CenterLoading } from "src/components/center-loading/CenterLoading";
 import { ModalProps } from "src/contexts/ModalContext";
 import { Questao } from "src/interfaces";
+import { toast } from "react-toastify";
 
 export function FormQuestoes({ data, onClose }: ModalProps) {
   const [loading, setLoading] = useState("");
@@ -56,9 +57,11 @@ export function FormQuestoes({ data, onClose }: ModalProps) {
         markdown,
         aula_id: data.aula_id,
       });
-
+      toast.success('Questão salva!')
       onClose(response.data)
-    } catch (error) {}
+    } catch (error) {
+      toast.error('Ocorreu um ao salvar questão')
+    }
     setLoading("");
   };
 

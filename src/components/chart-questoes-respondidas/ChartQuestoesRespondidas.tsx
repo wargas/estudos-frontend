@@ -159,9 +159,9 @@ const metricas = [
         },
         outputFormat: "dd/M",
         dates: () => {
-            const inicio = DateTime.local().minus({ day: 15 });
+            const inicio = DateTime.local().minus({ days: 15 });
             return Array(15).fill(1).map((item, i) => {
-                return inicio.plus({ day: i + 1 })
+                return inicio.plus({ days: i + 1 })
             });
         }
     },
@@ -174,9 +174,9 @@ const metricas = [
         },
         outputFormat: "MM/yyyy",
         dates: () => {
-            const inicio = DateTime.local().minus({ month: 15 });
+            const inicio = DateTime.local().minus({ months: 15 });
             return Array(15).fill(1).map((item, i) => {
-                return inicio.plus({ month: i + 1 })
+                return inicio.plus({ months: i + 1 })
             });
         }
     }
